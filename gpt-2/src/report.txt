@@ -1,0 +1,26 @@
+TensorFlow 2.0 Upgrade Script
+-----------------------------
+Converted 1 files
+Detected 0 issues that require attention
+--------------------------------------------------------------------------------
+================================================================================
+Detailed log follows:
+
+================================================================================
+--------------------------------------------------------------------------------
+Processing file 'sample_V1.py'
+ outputting to 'sample.py'
+--------------------------------------------------------------------------------
+
+18:11: INFO: Added keywords to args of function 'tf.cond'
+33:19: INFO: Added keywords to args of function 'tf.reduce_sum'
+51:76: INFO: Renamed 'tf.AUTO_REUSE' to 'tf.compat.v1.AUTO_REUSE'
+61:9: INFO: `name` passed to `name_scope`. Because you may be re-entering an existing scope, it is not safe to convert automatically,  the v2 name_scope does not support re-entering scopes by name.
+
+61:9: INFO: Renamed 'tf.name_scope' to 'tf.compat.v1.name_scope'
+64:57: INFO: Changed tf.to_float call to tf.cast(..., dtype=tf.float32).
+67:22: INFO: Added keywords to args of function 'tf.multinomial'
+67:22: INFO: Renamed keyword argument for tf.multinomial from output_dtype to dtype
+67:22: INFO: Renamed 'tf.multinomial' to 'tf.random.categorical'
+--------------------------------------------------------------------------------
+
