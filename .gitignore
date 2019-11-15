@@ -2,3 +2,4 @@
 data/
 gpt-2/models/*
 gpt-2/src/__pycache__/*
+*~
