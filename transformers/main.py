@@ -7,7 +7,7 @@ from transformer_model import Transformer_Seq2Seq
 import sys
 import time
 
-# largest paragraph: 1024. Largest Summary: 400
+# largest paragraph: 1024. Largest Summary: 400.
 PARAGRAPH_WINDOW_SIZE = 16  # window size is the largest sequnese we want to read
 SUMMARY_WINDOW_SIZE = 16
 
