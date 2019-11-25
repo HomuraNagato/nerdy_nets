@@ -30,6 +30,7 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
     reader = pd.read_json(file_name, precise_float=True, dtype=False, lines=True, chunksize=10)
     train_steps = 0
     step_start_time = time.time()
+    training_time = [step_start_time]
     
     for section in reader:
         #print("section['normalizedBody']: \n", section['normalizedBody'].tolist(), len(section['normalizedBody'].tolist()))
@@ -85,7 +86,7 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
         '''
 
         # Implement backprop:
-        print("section step", train_steps)
+        #print("section step", train_steps)
 
         with tf.GradientTape() as tape:
             probs  = model(train_words, test_words)
@@ -96,8 +97,10 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
             if train_steps % 10 == 0:
                 
                 step_inter_time = time.time()
+                training_time.append(step_inter_time)
+                average_training_time = np.mean([ training_time[i+1] - training_time[i] for i, x in enumerate(training_time[-11:-1]) ])
                 perplexity = tf.exp(loss)
-                print("current_time: {}training section: {}. model loss: {}. perplexity: {}".format(step_inter_time-step_start_time, section, loss, perplexity))
+                print("current_time: {} average_training_time: {} training section: {}. model loss: {}. perplexity: {}".format(step_inter_time-step_start_time, average_training_time, section, loss, perplexity))
                 
                 model.produce_sentence(np.array(ori_train_words[0]), np.array(test_words[0]), probs[0], reverse_vocab, SUMMARY_WINDOW_SIZE)
 

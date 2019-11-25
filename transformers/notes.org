@@ -7,7 +7,7 @@ installed nvtop for htop like viewing of GPU
 * meta data 
 
 vocab size:          3053570 
-reduced vocab size:  717511
+reduced vocab size:  717515
 reduction %:         0.765
 filtered words on showing up atleast twice in vocabulary
 

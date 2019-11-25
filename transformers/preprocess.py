@@ -5,7 +5,7 @@ import pandas as pd
 
 '''
 vocab size:          3053570 
-reduced vocab size:  717511
+reduced vocab size:  717515
 reduction %:         0.765
 filtered words on showing up atleast twice in vocabulary
 
@@ -192,4 +192,7 @@ if __name__ == '__main__':
     #vocab = initialize_vocab('../data/reduced_vocab.csv')
 
     #identify_longest_paragraph('../data/tldr-training-data.jsonl')
-    identify_num_sentences('../data/tldr-training-data.jsonl')
+    #identify_num_sentences('../data/tldr-training-data.jsonl')
+    vocab = initialize_vocab('../data/reduced_vocab.csv')
+    print("vocab length:", len(vocab), "vocab unk", vocab[UNK_TOKEN])
+    
