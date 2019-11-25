@@ -7,11 +7,12 @@ from transformer_model import Transformer_Seq2Seq
 import sys
 import time
 
-PARAGRAPH_WINDOW_SIZE = 1024  # window size is the largest sequnese we want to read
-SUMMARY_WINDOW_SIZE = 1024
+# largest paragraph: 1024. Largest Summary: 400
+PARAGRAPH_WINDOW_SIZE = 16  # window size is the largest sequnese we want to read
+SUMMARY_WINDOW_SIZE = 16
 
 
-def train(model, file_name, vocab, paragraph_window_size, summary_window_size, eng_padding_index):
+def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary_window_size, eng_padding_index):
     """
     Train transformer model
 
@@ -25,10 +26,12 @@ def train(model, file_name, vocab, paragraph_window_size, summary_window_size, e
 
     reader = pd.read_json(file_name, precise_float=True, dtype=False, lines=True, chunksize=100)
     train_steps = 0
+    step_start_time = time.time()
     
     for section in reader:
         #print("section['normalizedBody']: \n", section['normalizedBody'].tolist(), len(section['normalizedBody'].tolist()))
-
+        train_steps += 1
+        
         # get paragraph and summary
         train_batch = section['normalizedBody'].tolist()
         test_batch = section['summary'].tolist()
@@ -41,12 +44,12 @@ def train(model, file_name, vocab, paragraph_window_size, summary_window_size, e
 
         start_print, stop_print = 96, 98
         
-
+        '''
         print("cleaned words")
         for paragraph, summary in zip(train_words[start_print:stop_print], test_words[start_print:stop_print]):
             print("\nparagraph\n", np.array(paragraph))
             print("summary\n", np.array(summary))
-
+        '''
         
         # fix length
         train_words = pad_corpus(train_words, paragraph_window_size)
@@ -61,14 +64,14 @@ def train(model, file_name, vocab, paragraph_window_size, summary_window_size, e
         # dict lookup
         train_words = convert_to_id(vocab, train_words)
         test_words = convert_to_id(vocab, test_words)
-
+        '''
         print("id words")
         for paragraph, summary in zip(train_words[start_print:stop_print], test_words[start_print:stop_print]):
             print("\nparagraph\n", np.array(paragraph))
             print("summary\n", np.array(summary))
-
+        '''
         
-        #mask = np.not_equal(loss_english, eng_padding_index)
+        mask = np.not_equal(test_words, eng_padding_index)
 
         train_words = tf.convert_to_tensor(train_words, dtype=tf.int32)
         test_words = tf.convert_to_tensor(test_words, dtype=tf.int32)        
@@ -84,26 +87,27 @@ def train(model, file_name, vocab, paragraph_window_size, summary_window_size, e
 
         with tf.GradientTape() as tape:
             probs  = model(train_words, test_words)
-            print("probs", probs)
-            loss = 0
-            exit(0)
-            '''
-            loss = model.loss_function(probs, test_words)
+            #print("probs", probs)
 
-            if i % 10000 == 0:
+            loss = model.loss_function(probs, test_words, mask)
+
+            if train_steps % 10 == 0:
+                
+                step_inter_time = time.time()
                 perplexity = tf.exp(loss)
-                print("training steps: {}. model loss: {}. perplexity: {}".format(i, loss, perplexity))
+                print("current_time: {}training section: {}. model loss: {}. perplexity: {}".format(step_inter_time-step_start_time, section, loss, perplexity))
+                
+                model.produce_sentence(np.array(train_words[0]), np.array(test_words[0]), probs[0], reverse_vocab, SUMMARY_WINDOW_SIZE)
 
+                '''
                 if i % 100 == 0:
                     break
-            '''
 
-        '''
+                '''
         trainable_variables = model.trainable_variables
 
         gradients = tape.gradient(loss, trainable_variables)
         optimizer.apply_gradients(zip(gradients, trainable_variables))
-        '''
 
 
     return 0
@@ -153,6 +157,7 @@ def main():
     start_time = time.time()
 
     vocab = initialize_vocab('../data/reduced_vocab.csv')
+    reverse_vocab = {idx:word for word, idx in vocab.items()}
     print("vocab length:", len(vocab), "vocab unk", vocab[UNK_TOKEN])
     
     padding_index = vocab[PAD_TOKEN]
@@ -160,7 +165,7 @@ def main():
     model = Transformer_Seq2Seq(len(vocab), PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE)
 
     print("training model")
-    train(model, '../data/tldr-training-data.jsonl', vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
+    train(model, '../data/tldr-training-data.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
     '''
     loss, accuracy = test(model, test_french, test_english, eng_padding_index)
     perplexity = np.exp(loss)

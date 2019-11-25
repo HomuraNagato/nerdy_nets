@@ -63,22 +63,22 @@ class Transformer_Seq2Seq(tf.keras.Model):
         return dense
         '''
 
-        print("transformer input", encoder_input.shape)
+        #print("transformer input", encoder_input.shape)
         embedding = self.embedding_layer(encoder_input)
         embedding = self.positional_layer(embedding)
-        print("embedding", embedding.shape)
+        #print("embedding", embedding.shape)
         encoder_output = self.encoder_transformer(embedding)
-        print("encoder_output", encoder_output.shape)
+        #print("encoder_output", encoder_output.shape)
 
         summary_embedding = self.summary_embedding_layer(summary_input)
         summary_embedding = self.summary_positional_layer(summary_embedding)
-        print("summary embedding", summary_embedding.shape)
+        #print("summary embedding", summary_embedding.shape)
         
         decoder_output = self.decoder_transformer(summary_embedding, encoder_output)
-        print("decoder_output", decoder_output.shape)
+        #print("decoder_output", decoder_output.shape)
 
         dense = self.dense(decoder_output)
-        print("returning dense", dense.shape)
+        #print("returning dense", dense.shape)
         return dense
 
     def accuracy_function(self, prbs, labels, mask):
@@ -93,6 +93,7 @@ class Transformer_Seq2Seq(tf.keras.Model):
         :return: scalar tensor of accuracy of the batch between 0 and 1
         """
 
+        #decoded_symbols = tf.argmax(input=prbs, axis=2)
         decoded_symbols = tf.argmax(input=prbs, axis=2)
         accuracy = tf.reduce_mean(tf.boolean_mask(tf.cast(tf.equal(decoded_symbols, labels), dtype=tf.float32),mask))
         return accuracy
@@ -115,3 +116,13 @@ class Transformer_Seq2Seq(tf.keras.Model):
         loss = tf.reduce_mean(loss)
         return loss
 
+    def produce_sentence(self, paragraph, summary, prbs, reverse_vocab, sen_len):
+
+        decoded_symbols = np.argmax(prbs, axis=1)
+        decoded_sentence = [ reverse_vocab[x] for x in decoded_symbols ]
+        decoded_sentence = " ".join(decoded_sentence)
+        ori_paragraph = " ".join([ reverse_vocab[x] for x in paragraph ])
+        ori_summary = " ".join([ reverse_vocab[x] for x in summary ])
+        print("original paragraph\n", ori_paragraph)
+        print("summary sentence\n", ori_summary)
+        print("decoded sentence\n", decoded_sentence)

@@ -37,7 +37,7 @@ def Self_Attention(K, V, Q, use_mask=False):
     # This can be thought of as: for every query word, how much should I pay attention to the other words in this window?
     # Those weights are then used to create linear combinations of the corresponding values for each query.
     # Those queries will become the new embeddings.
-    print("self attention shapes. K:", K.shape, "V:", V.shape, "Q:",Q.shape)
+    #print("self attention shapes. K:", K.shape, "V:", V.shape, "Q:",Q.shape)
     intermediate = tf.matmul(Q, K, transpose_b = True) / np.sqrt(window_size_keys)
     if use_mask:
         intermediate += atten_mask
@@ -79,14 +79,12 @@ class Atten_Head(tf.keras.layers.Layer):
         # - Apply 3 matrices to turn inputs into keys, values, and queries. You will need to use tf.tensordot for this. 
         # - Call self_attention with the keys, values, and queries, and with self.use_mask.
 
+        #print("inputs. keys shape:", inputs_for_keys.shape, "values shape:", inputs_for_values, "queries shape:", inputs_for_queries)
         #print("self K dim:", self.K.shape, "self V dim:", self.V.shape, "self Q dim:", self.Q.shape)
-        #print("input K dim:", inputs_for_keys.shape, "input V dim:", inputs_for_values.shape, "input Q dim:", inputs_for_queries.shape)
+
         K = tf.tensordot(inputs_for_keys, self.K, [2,0])
-        #K = tf.matmul(inputs_for_keys, self.K)
         V = tf.tensordot(inputs_for_values, self.V, [2,0])
-        #V = tf.matmul(self.V, inputs_for_values)
         Q = tf.tensordot(inputs_for_queries, self.Q, [2,0])
-        #Q = tf.matmul(self.Q, inputs_for_queries)
         
         #print("K dim:", K.shape, "V dim:", V.shape, "Q dim:", Q.shape)
         
@@ -234,5 +232,5 @@ class Position_Encoding_Layer(tf.keras.layers.Layer):
         :param x: [BATCH_SIZE x (ENG/FRN)_WINDOW_SIZE x EMBEDDING_SIZE ] the input embeddings fed to the encoder
         :return: [BATCH_SIZE x (ENG/FRN)_WINDOW_SIZE x EMBEDDING_SIZE ] new word embeddings with added positional encodings
         """
-        print("positional embedding", self.positional_embeddings.shape)
+        #print("positional embedding", self.positional_embeddings.shape)
         return x+self.positional_embeddings

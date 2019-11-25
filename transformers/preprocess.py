@@ -11,6 +11,8 @@ filtered words on showing up atleast twice in vocabulary
 
 longest paragraph:   1015
 longest summary:     397
+
+num examples:        30845 * 100 ~= 3,084,500
 '''
 
 ##########DO NOT CHANGE#####################
@@ -18,8 +20,10 @@ PAD_TOKEN = "*PAD*"
 STOP_TOKEN = "*STOP*"
 START_TOKEN = "*START*"
 UNK_TOKEN = "*UNK*"
-PARAGRAPH_WINDOW_SIZE = 1024  # window size is the largest sequnese we want to read
-SUMMARY_WINDOW_SIZE = 512
+#PARAGRAPH_WINDOW_SIZE = 1024  # window size is the largest sequnese we want to read
+#SUMMARY_WINDOW_SIZE = 512
+PARAGRAPH_WINDOW_SIZE = 16
+SUMMARY_WINDOW_SIZE = 16
 ##########DO NOT CHANGE#####################
 
 def build_vocab_set(file_name):
@@ -114,8 +118,10 @@ def identify_num_sentences(file_name):
     num_sentences, num_large_sentences = 0, 0
     summaries = []
     large_summaries = []
+    i = 0
     
     for section in reader:
+        i += 1
         for summary in section['summary']:
             summary_len = len(summary.split('.'))
             if summary_len > 1:
@@ -123,6 +129,7 @@ def identify_num_sentences(file_name):
                 large_summaries.append(summary_len)
             num_sentences += 1
             summaries.append(summary_len)
+    print(i, "steps with batch size", 100)
     print("average summary num sentences:", np.mean(summaries))
     print("average large summary num sentences:", np.mean(large_summaries))
     print("number of sentences", num_sentences)
@@ -141,6 +148,10 @@ def convert_to_id(vocab, sentences):
     :param sentences:  list of lists of words, each representing padded sentence
     :return: numpy array of integers, with each row representing the word indeces in the corresponding sentences
     """
+    #print("sentences shape:", len(sentences), len(sentences[0]))
+    for sentence in sentences:
+        if len(sentence) != SUMMARY_WINDOW_SIZE:
+            print("sentence not in right shape:", len(sentence))
     return np.stack([[vocab[word] if word in vocab else vocab[UNK_TOKEN] for word in sentence] for sentence in sentences])
 
 
@@ -162,10 +173,13 @@ def pad_corpus(sentences, window_size):
     #print("length of sentences", len(sentences), len(sentences[0].split()), "\n", sentences[0])
     # text can be a body paragraph or a summary
     pad_sentences = []
+    i = 0
     for text in sentences:
         text = text.split()
-        #print("length of pre-padded text", len(text))
-        pad_sentences.append(text[:window_size] + [STOP_TOKEN] + [PAD_TOKEN] * (window_size - len(text)-1))
+        #print("length of pre-padded text", len(text), end="\t")
+        pad_sentences.append(text[:window_size-1] + [STOP_TOKEN] + [PAD_TOKEN] * (window_size - len(text)-1))
+        #print("length of post padded text", len(pad_sentences[i]))
+        i += 1
     #print("length of post-padded text", len(pad_sentences[0]))
     return pad_sentences
 
