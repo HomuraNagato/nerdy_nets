@@ -1,0 +1,46 @@
+
+* install
+
+GCP - Tesla K80
+installed nvtop for htop like viewing of GPU
+
+* meta data 
+
+vocab size:          3053570 
+reduced vocab size:  717511
+reduction %:         0.765
+filtered words on showing up atleast twice in vocabulary
+
+longest paragraph:   1015
+longest summary:     397
+
+num examples:        30845 * 100 ~= 3,084,500
+
+* first pass 
+
+paragraph_window_size, summary_window_size = 16, 16
+
+1000 steps in 10 examples per step
+
+produces already coherent summaries
+
+original paragraph
+ ok here we go went to a school sorta knew a girl there but not *STOP*
+summary sentence
+ sorta met someone stuff happened remet them and fell in love with them not the *STOP*
+decoded sentence
+ code met someone stuff happened woke them and fell in love with them not the *STOP*
+
+original paragraph
+ theres nothing wrong i wear a black suit a lot its actually pretty casual looking *STOP*
+summary sentence
+ wear whatever color suit you like make sure the fit is right and youre good *STOP*
+decoded sentence
+ wear whatever 8 cheap you like make sure the male is right and youre good *STOP*
+
+original paragraph
+ having gone through my companies sexual harassment training i can tell you that at my *STOP*
+summary sentence
+ you acted like an adult she did not i would be surprised if anything came *STOP*
+decoded sentence
+ you group like an became she did not i would be community if anything entire *STOP*

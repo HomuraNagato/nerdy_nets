@@ -7,6 +7,9 @@ from transformer_model import Transformer_Seq2Seq
 import sys
 import time
 
+tf.debugging.set_log_device_placement(True)
+print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
+
 # largest paragraph: 1024. Largest Summary: 400.
 PARAGRAPH_WINDOW_SIZE = 16  # window size is the largest sequnese we want to read
 SUMMARY_WINDOW_SIZE = 16
@@ -24,7 +27,7 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
     """
     optimizer = tf.keras.optimizers.Adam(learning_rate=0.01)
 
-    reader = pd.read_json(file_name, precise_float=True, dtype=False, lines=True, chunksize=100)
+    reader = pd.read_json(file_name, precise_float=True, dtype=False, lines=True, chunksize=10)
     train_steps = 0
     step_start_time = time.time()
     
@@ -35,18 +38,17 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
         # get paragraph and summary
         train_batch = section['normalizedBody'].tolist()
         test_batch = section['summary'].tolist()
-
         # normalize
         punc_mapping = str.maketrans('', '', string.punctuation)
         #train_words = [ w.translate(punc_mapping).lower() for paragraph in train_batch for w in paragraph.split() ]
         train_words = [ w.translate(punc_mapping).lower() for w in train_batch ]
         test_words = [ w.translate(punc_mapping).lower() for w in test_batch ]
+        ori_train_words, ori_test_words = np.array(train_words), np.array(test_words)
 
-        start_print, stop_print = 96, 98
-        
+        start_print, stop_print = 6, 8
         '''
-        print("cleaned words")
-        for paragraph, summary in zip(train_words[start_print:stop_print], test_words[start_print:stop_print]):
+        print("cleaned words", ori_train_words.shape)
+        for paragraph, summary in zip(ori_train_words[start_print:stop_print], ori_test_words[start_print:stop_print]):
             print("\nparagraph\n", np.array(paragraph))
             print("summary\n", np.array(summary))
         '''
@@ -97,7 +99,7 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
                 perplexity = tf.exp(loss)
                 print("current_time: {}training section: {}. model loss: {}. perplexity: {}".format(step_inter_time-step_start_time, section, loss, perplexity))
                 
-                model.produce_sentence(np.array(train_words[0]), np.array(test_words[0]), probs[0], reverse_vocab, SUMMARY_WINDOW_SIZE)
+                model.produce_sentence(np.array(ori_train_words[0]), np.array(test_words[0]), probs[0], reverse_vocab, SUMMARY_WINDOW_SIZE)
 
                 '''
                 if i % 100 == 0:
