@@ -11,9 +11,11 @@ tf.debugging.set_log_device_placement(True)
 print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 
 # largest paragraph: 1024. Largest Summary: 400.
-PARAGRAPH_WINDOW_SIZE = 16  # window size is the largest sequnese we want to read
-SUMMARY_WINDOW_SIZE = 16
+PARAGRAPH_WINDOW_SIZE = 32  # window size is the largest sequnese we want to read
+SUMMARY_WINDOW_SIZE = 32
 
+break_line = 1000
+print_line = 100
 
 def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary_window_size, eng_padding_index):
     """
@@ -76,8 +78,8 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
         
         mask = np.not_equal(test_words, eng_padding_index)
 
-        train_words = tf.convert_to_tensor(train_words, dtype=tf.int32)
-        test_words = tf.convert_to_tensor(test_words, dtype=tf.int32)        
+        train_words = tf.convert_to_tensor(train_words, dtype=tf.int64)
+        test_words = tf.convert_to_tensor(test_words, dtype=tf.int64)        
         '''
         print("id words as tensor")
         for paragraph, summary in zip(train_words[10:12], test_words[10:12]):
@@ -87,7 +89,7 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
 
         # Implement backprop:
         #print("section step", train_steps)
-        print("step %02d" % (train_steps), end='\r')
+        print("step %02d / %02d" % (train_steps, break_line), end='\r')
 
 
         with tf.GradientTape() as tape:
@@ -96,7 +98,7 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
 
             loss = model.loss_function(probs, test_words, mask)
 
-            if train_steps % 10 == 0:
+            if train_steps % print_line == 0:
                 
                 step_inter_time = time.time()
                 training_time.append(step_inter_time)
@@ -106,11 +108,9 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
                 
                 model.produce_sentence(np.array(ori_train_words[0]), np.array(test_words[0]), probs[0], reverse_vocab, SUMMARY_WINDOW_SIZE)
 
-                '''
-                if i % 100 == 0:
-                    break
-
-                '''
+        if train_steps % break_line == 0:
+            break
+                
         trainable_variables = model.trainable_variables
 
         gradients = tape.gradient(loss, trainable_variables)
@@ -119,7 +119,7 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
 
     return 0
 
-def test(model, test_french, test_english, eng_padding_index):
+def test(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary_window_size, eng_padding_index):
     """
     Runs through one epoch - all testing examples.
 
@@ -130,33 +130,50 @@ def test(model, test_french, test_english, eng_padding_index):
     :returns: perplexity of the test set, per symbol accuracy on test set
     """
 
-    # Note: Follow the same procedure as in train() to construct batches of data!
     loss = 0
     accuracy = 0
-    #accuracy_mult = 0    
-    #num_non_padded = 0    
-    num_batches = 0
+    test_steps = 0
+    start_time = time.time()
+    reader = pd.read_json(file_name, precise_float=True, dtype=False, lines=True, chunksize=10)
     
     print("testing model")
-    for i in range(0, len(test_french), model.batch_size):
+    for section in reader:
 
-        num_batches += 1
-        batch_english = test_english[i:i+model.batch_size]
-        encoder_english = tf.convert_to_tensor([ x[:-1] for x in batch_english ])
-        loss_english = tf.convert_to_tensor([ x[1:] for x in batch_english ], dtype=tf.int64)
-        batch_french = test_french[i:i+model.batch_size]
-        mask = np.not_equal(loss_english, eng_padding_index)
+        test_steps += 1
+        
+        # get paragraph and summary
+        train_batch = section['normalizedBody'].tolist()
+        test_batch = section['summary'].tolist()
+        # normalize
+        punc_mapping = str.maketrans('', '', string.punctuation)
+        train_words = [ w.translate(punc_mapping).lower() for w in train_batch ]
+        test_words = [ w.translate(punc_mapping).lower() for w in test_batch ]
+        ori_train_words, ori_test_words = np.array(train_words), np.array(test_words)
+        # fix length
+        train_words = pad_corpus(train_words, paragraph_window_size)
+        test_words = pad_corpus(test_words, summary_window_size)
+        # dict lookup
+        train_words = convert_to_id(vocab, train_words)
+        test_words = convert_to_id(vocab, test_words)
+        mask = np.not_equal(test_words, eng_padding_index)
+        # tensor
+        train_words = tf.convert_to_tensor(train_words, dtype=tf.int64)
+        test_words = tf.convert_to_tensor(test_words, dtype=tf.int64)
+        # test probability
+        probs  = model(train_words, test_words)
+        # loss and accuracy
+        loss += model.loss_function(probs, test_words, mask)
+        accuracy += model.accuracy_function(probs, test_words, mask)
+        if test_steps % print_line/10 == 0:
+            inter_time = time.time()
+            inter_perplexity = tf.exp(loss / test_steps)
+            inter_accuracy = accuracy / test_steps
+            print("test_step {}. test_time: {}. perplexity: {}. accuracy: {}".format(test_steps, inter_time-start_time, inter_perplexity, inter_accuracy))
 
-        #batch_padded = np.sum(mask)
-        #num_non_padded += batch_padded
-        probs  = model(batch_french, encoder_english)
-        loss += model.loss_function(probs, loss_english, mask) 
-        #batch_accuracy = model.accuracy_function(probs, loss_english, mask)
-        accuracy += model.accuracy_function(probs, loss_english, mask)
-        #accuracy_mult += batch_accuracy * batch_padded
+            model.produce_sentence(np.array(ori_train_words[0]), np.array(test_words[0]), probs[0], reverse_vocab, SUMMARY_WINDOW_SIZE)
 
-    loss = loss / num_batches
-    accuracy = accuracy / num_batches
+    loss = loss / test_steps
+    accuracy = accuracy / test_steps
     return loss, accuracy
 
 def main():	
@@ -172,14 +189,14 @@ def main():
     model = Transformer_Seq2Seq(len(vocab), PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE)
 
     print("training model")
-    train(model, '../data/tldr-training-data.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
-    '''
-    loss, accuracy = test(model, test_french, test_english, eng_padding_index)
+    train(model, '../data/tldr_train80.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
+
+    loss, accuracy = test(model, '../data/tldr_test20.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
     perplexity = np.exp(loss)
     print("model test perplexity: {}. model test accuracy: {}".format(perplexity, accuracy))
     end_time = time.time()
     print("The model took:", end_time-start_time,"seconds to train")
-    '''
+
 
 if __name__ == '__main__':
     main()

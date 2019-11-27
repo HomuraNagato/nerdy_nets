@@ -94,7 +94,7 @@ class Transformer_Seq2Seq(tf.keras.Model):
         """
 
         #decoded_symbols = tf.argmax(input=prbs, axis=2)
-        decoded_symbols = tf.argmax(input=prbs, axis=2)
+        decoded_symbols = tf.argmax(prbs, axis=2)
         accuracy = tf.reduce_mean(tf.boolean_mask(tf.cast(tf.equal(decoded_symbols, labels), dtype=tf.float32),mask))
         return accuracy
 

@@ -22,8 +22,8 @@ START_TOKEN = "*START*"
 UNK_TOKEN = "*UNK*"
 #PARAGRAPH_WINDOW_SIZE = 1024  # window size is the largest sequnese we want to read
 #SUMMARY_WINDOW_SIZE = 512
-PARAGRAPH_WINDOW_SIZE = 16
-SUMMARY_WINDOW_SIZE = 16
+PARAGRAPH_WINDOW_SIZE = 32
+SUMMARY_WINDOW_SIZE = 32
 ##########DO NOT CHANGE#####################
 
 def build_vocab_set(file_name):
