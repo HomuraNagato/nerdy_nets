@@ -33,7 +33,7 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
     train_steps = 0
     step_start_time = time.time()
     training_time = [step_start_time]
-    
+    print(reader)
     for section in reader:
         #print("section['normalizedBody']: \n", section['normalizedBody'].tolist(), len(section['normalizedBody'].tolist()))
         train_steps += 1
