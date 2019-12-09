@@ -189,9 +189,9 @@ def main():
     model = RNN_Seq2Seq(len(vocab), PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE)
 
     print("training model")
-    train(model, '../data/tldr_train80.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
+    train(model, '../data/tldr-training-data.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
 
-    loss, accuracy = test(model, '../data/tldr_test20.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
+    loss, accuracy = test(model, '../data/tldr-training-data.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
     perplexity = np.exp(loss)
     print("model test perplexity: {}. model test accuracy: {}".format(perplexity, accuracy))
     end_time = time.time()
