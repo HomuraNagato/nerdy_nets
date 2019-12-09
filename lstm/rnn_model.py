@@ -2,32 +2,31 @@ import numpy as np
 import tensorflow as tf
 
 class RNN_Seq2Seq(tf.keras.Model):
-	def __init__(self, french_window_size, french_vocab_size, english_window_size, english_vocab_size):
+	def __init__(self, vocab_size, paragraph_window_size, summary_window_size):
 
     ######vvv DO NOT CHANGE vvvv##############
 		super(RNN_Seq2Seq, self).__init__()
-		self.french_vocab_size = french_vocab_size # The size of the french vocab
-		self.english_vocab_size = english_vocab_size # The size of the english vocab
+		self.paragraph_window_size = paragraph_window_size 
+		self.summary_window_size = summary_window_size 
 
-		self.french_window_size = french_window_size # The french window size
-		self.english_window_size = english_window_size # The english window size
-		######^^^ DO NOT CHANGE ^^^##################
-
-
-		# TODO:
-		# 1) Define any hyperparameters
+		self.vocab_size = vocab_size 
 		
 		# Define batch size and optimizer/learning rate
-		self.batch_size = 100 # You can change this
-		self.embedding_size = 75 # You should change this
+		self.batch_size = 100 
+        self.embedding_size = 15 
 		self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.01)
 	
-		# 2) Define embeddings, encoder, decoder, and feed forward layers
-		self.french_embedding = tf.Variable(tf.random.truncated_normal([ self.french_vocab_size, self.embedding_size],stddev=0.01,dtype=tf.float32))
-		self.english_embedding = tf.Variable(tf.random.truncated_normal([ self.english_vocab_size, self.embedding_size],stddev=0.01,dtype=tf.float32))
-		self.dense_layer = tf.keras.layers.Dense(english_vocab_size , activation='softmax')
+	
+		self.paragraph_embedding = tf.Variable(tf.random.truncated_normal([ self.paragraph_window_size, self.embedding_size],stddev=0.01,dtype=tf.float32))
+		self.summary_embedding = tf.Variable(tf.random.truncated_normal([ self.summary_window_size, self.embedding_size],stddev=0.01,dtype=tf.float32))
+        
+        # Define encoder and decoder layers:
 		self.encoder = tf.keras.layers.GRU(80)
 		self.decoder = tf.keras.layers.GRU(80 , return_sequences = True)
+
+        # Define dense layer(s)
+        self.dense_layer = tf.keras.layers.Dense(self.vocab_size, activation='softmax')
+		
 	@tf.function
 	def call(self, encoder_input, decoder_input):
 		"""
@@ -40,10 +39,10 @@ class RNN_Seq2Seq(tf.keras.Model):
 		#1) Pass your french sentence embeddings to your encoder 
 		#2) Pass your english sentence embeddings, and final state of your encoder, to your decoder
 		#3) Apply dense layer(s) to the decoder out to generate probabilities
-		embedding_french = tf.nn.embedding_lookup(self.french_embedding, encoder_input)
-		embedding_english = tf.nn.embedding_lookup(self.english_embedding, decoder_input)
-		out = self.encoder(embedding_french)
-		out1= self.decoder(embedding_english, out)
+		embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding, encoder_input)
+		embedding_summary = tf.nn.embedding_lookup(self.summary_embedding, decoder_input)
+		out = self.encoder(embedding_paragraph)
+		out1= self.decoder(embedding_summary, out)
 		dense_out = self.dense_layer(out1)
 		return dense_out
 
