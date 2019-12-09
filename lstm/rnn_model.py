@@ -40,8 +40,8 @@ class RNN_Seq2Seq(tf.keras.Model):
 		embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding, encoder_input)
 		embedding_summary = tf.nn.embedding_lookup(self.summary_embedding, decoder_input)
 		out = self.encoder(embedding_paragraph)
-		out1= self.decoder(embedding_summary, out[0])
-		dense_out = self.dense_layer(out1[0])
+		out1= self.decoder(embedding_summary, out)
+		dense_out = self.dense_layer(out1)
 		return dense_out
 
 	def accuracy_function(self, prbs, labels, mask):
