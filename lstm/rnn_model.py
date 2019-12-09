@@ -21,8 +21,8 @@ class RNN_Seq2Seq(tf.keras.Model):
 		self.summary_embedding = tf.Variable(tf.random.truncated_normal([ self.summary_window_size, self.embedding_size],stddev=0.01,dtype=tf.float32))
         
         # Define encoder and decoder layers:
-		self.encoder = tf.keras.layers.GRU(80)
-		self.decoder = tf.keras.layers.GRU(80 , return_sequences = True)
+		self.layer = tf.keras.layers.LSTM(80)
+		self.decoder = tf.keras.layers.LSTM(80 , return_sequences = True)
 
         # Define dense layer(s)
         self.dense_layer = tf.keras.layers.Dense(self.vocab_size, activation='softmax')
@@ -42,8 +42,8 @@ class RNN_Seq2Seq(tf.keras.Model):
 		embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding, encoder_input)
 		embedding_summary = tf.nn.embedding_lookup(self.summary_embedding, decoder_input)
 		out = self.encoder(embedding_paragraph)
-		out1= self.decoder(embedding_summary, out)
-		dense_out = self.dense_layer(out1)
+		out1= self.decoder(embedding_summary, out[0])
+		dense_out = self.dense_layer(out1[0])
 		return dense_out
 
 	def accuracy_function(self, prbs, labels, mask):
