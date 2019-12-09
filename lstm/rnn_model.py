@@ -12,8 +12,8 @@ class RNN_Seq2Seq(tf.keras.Model):
 		self.vocab_size = vocab_size 
 		
 		# Define batch size and optimizer/learning rate
-		self.batch_size = 100 
-        self.embedding_size = 15 
+		self.batch_size = 100
+		self.embedding_size = 15
 		self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.01)
 	
 	
