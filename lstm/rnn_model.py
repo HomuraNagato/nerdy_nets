@@ -23,9 +23,7 @@ class RNN_Seq2Seq(tf.keras.Model):
         # Define encoder and decoder layers:
 		self.layer = tf.keras.layers.LSTM(80)
 		self.decoder = tf.keras.layers.LSTM(80 , return_sequences = True)
-
-        # Define dense layer(s)
-        self.dense_layer = tf.keras.layers.Dense(self.vocab_size, activation='softmax')
+		self.dense_layer = tf.keras.layers.Dense(self.vocab_size, activation='softmax')
 		
 	@tf.function
 	def call(self, encoder_input, decoder_input):
