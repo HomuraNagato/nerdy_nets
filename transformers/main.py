@@ -4,6 +4,7 @@ import tensorflow as tf
 import numpy as np
 from preprocess import *
 from transformer_model import Transformer_Seq2Seq
+from rnn_model import RNN_Seq2Seq
 import sys
 import time
 
@@ -185,8 +186,10 @@ def main():
     print("vocab length:", len(vocab), "vocab unk", vocab[UNK_TOKEN])
     
     padding_index = vocab[PAD_TOKEN]
-    
-    model = Transformer_Seq2Seq(len(vocab), PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE)
+    if sys.argv[1] == "RNN":
+		model = RNN_Seq2Seq(len(vocab), PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE)
+	elif sys.argv[1] == "TRANSFORMER":
+        model = Transformer_Seq2Seq(len(vocab), PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE)
 
     print("training model")
     train(model, '../data/tldr_train80.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
