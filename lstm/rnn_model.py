@@ -21,8 +21,8 @@ class RNN_Seq2Seq(tf.keras.Model):
 		self.summary_embedding = tf.Variable(tf.random.truncated_normal([ self.summary_window_size, self.embedding_size],stddev=0.01,dtype=tf.float32))
         
         # Define encoder and decoder layers:
-		self.encoder = tf.keras.layers.LSTM(80)
-		self.decoder = tf.keras.layers.LSTM(80 , return_sequences = True)
+		self.encoder = tf.keras.layers.GRU(80)
+		self.decoder = tf.keras.layers.GRU(80 , return_sequences = True)
 		self.dense_layer = tf.keras.layers.Dense(self.vocab_size, activation='softmax')
 		
 	@tf.function
