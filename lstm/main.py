@@ -4,6 +4,7 @@ import tensorflow as tf
 import numpy as np
 from preprocess import *
 from rnn_model import RNN_Seq2Seq
+from lstm import LSTM_Seq2Seq
 import sys
 import time
 
@@ -186,7 +187,8 @@ def main():
     
     padding_index = vocab[PAD_TOKEN]
     
-    model = RNN_Seq2Seq(len(vocab), PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE)
+    # model = RNN_Seq2Seq(len(vocab), PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE)
+    model = LSTM_Seq2Seq(len(vocab), PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE)
 
     print("training model")
     train(model, '../data/tldr-training-data.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
