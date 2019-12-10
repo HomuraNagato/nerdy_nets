@@ -21,7 +21,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
         self.sm1 = Embedding(vocab_size, 128)
         self.sm2 = LSTM(128)
 
-        self.outputs = Dense(vocab_size, activation='softmax')(self.decoder2)
+        self.outputs = Dense(vocab_size, activation='softmax')
     
     @tf.function
     def call(self, encoder_input, decoder_input):
