@@ -5,7 +5,7 @@ from tensorflow.keras.layers import Embedding, LSTM, concatenate, Dense
 
 class LSTM_Seq2Seq(tf.keras.Model):
     def __init__(self, vocab_size, paragraph_window_size, summary_window_size):
-        super(RNN_Seq2Seq, self).__init__()
+        super(LSTM_Seq2Seq, self).__init__()
         self.paragraph_window_size = paragraph_window_size
         self.summary_window_size = summary_window_size
         self.vocab_size = vocab_size
