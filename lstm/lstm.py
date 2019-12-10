@@ -13,13 +13,12 @@ class LSTM_Seq2Seq(tf.keras.Model):
         self.embedding_size = 15
         self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.01)
 
-        # self.inputs1 = Input(shape=(paragraph_window_size,))
-        self.am1 = Embedding(vocab_size, 128)
-        self.am2 = LSTM(128)
+        self.paragraph_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.paragraph_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
+        self.encoder = LSTM(128)
 
         # self.inputs2 = Input(shape=(summary_window_size,))
-        self.sm1 = Embedding(vocab_size, 128)
-        self.sm2 = LSTM(128)
+        self.summary_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.summary_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
+        self.decoder = LSTM(128)
 
         self.outputs = Dense(summary_window_size, activation='softmax')
     
@@ -30,12 +29,11 @@ class LSTM_Seq2Seq(tf.keras.Model):
         :param decoder_input: batched ids corresponding to english sentences
         :return prbs: The 3d probabilities as a tensor, [batch_size x window_size x english_vocab_size]
         """
-        embedding_paragraph = self.am1(encoder_input)
-        embedding_summary = self.sm1(decoder_input)
-        out = self.am2(embedding_paragraph)
-        out1= self.sm2(embedding_summary)
-        out2 = concatenate([out, out1])
-        dense_out = self.outputs(out2)
+        embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding,encoder_input)
+        embedding_summary = tf.nn.embedding_lookup(self.summary_embedding,decoder_input)
+        out = self.encoder(embedding_paragraph, None)
+        out1= self.decoder(embedding_summary, out)
+        dense_out = self.outputs(out1)
         return dense_out
 
     def accuracy_function(self, prbs, labels, mask):
