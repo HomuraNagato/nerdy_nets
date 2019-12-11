@@ -15,9 +15,9 @@ class LSTM_Seq2Seq(tf.keras.Model):
         self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.01)
 
         self.paragraph_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.paragraph_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
-        self.encoder = LSTM(500, return_state = True)
-        self.encoder1 = LSTM(500, return_state = True)
-        self.encoder2 = LSTM(500, return_state = True)    
+        self.encoder = LSTM(500, return_state = True, return_sequences = True)
+        self.encoder1 = LSTM(500, return_state = True, return_sequences = True)
+        self.encoder2 = LSTM(500, return_state = True, return_sequences = True)    
 
         # self.inputs2 = Input(shape=(summary_window_size,))
         self.summary_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.summary_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
