@@ -69,8 +69,7 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
         # dict lookup
         train_words = convert_to_id(vocab, train_words)
         test_words = convert_to_id(vocab, test_words)
-        print(train_words)
-        exit()
+        
         mask = np.not_equal(test_words, eng_padding_index)
 
         train_words = tf.convert_to_tensor(train_words, dtype=tf.int64)
