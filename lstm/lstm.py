@@ -18,7 +18,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
 
         # self.inputs2 = Input(shape=(summary_window_size,))
         self.summary_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.summary_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
-        self.decoder = LSTM(128)
+        self.decoder = LSTM(128, return_sequences = True)
 
         self.outputs = Dense(summary_window_size, activation='softmax')
     
