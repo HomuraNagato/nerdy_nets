@@ -28,7 +28,7 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
     :param eng_padding_index: the padding index, the id of *PAD* token. This integer is used to mask padding labels.
     :return: None
     """
-    optimizer = tf.keras.optimizers.Adam(learning_rate=0.01)
+    
 
     reader = pd.read_json(file_name, precise_float=True, dtype=False, lines=True, chunksize=10)
     train_steps = 0
@@ -69,7 +69,7 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
         # dict lookup
         train_words = convert_to_id(vocab, train_words)
         test_words = convert_to_id(vocab, test_words)
-        
+
         mask = np.not_equal(test_words, eng_padding_index)
 
         train_words = tf.convert_to_tensor(train_words, dtype=tf.int64)
@@ -102,7 +102,7 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
         trainable_variables = model.trainable_variables
 
         gradients = tape.gradient(loss, trainable_variables)
-        optimizer.apply_gradients(zip(gradients, trainable_variables))
+        model.optimizer.apply_gradients(zip(gradients, trainable_variables))
 
 
     return 0
