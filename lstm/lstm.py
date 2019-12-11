@@ -27,7 +27,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
 
         self.attn_layer = AttentionLayer(name='attention_layer')
 
-        self.outputs = Dense(summary_window_size, activation='softmax')
+        self.outputs = Dense(vocab_size, activation='softmax')
     
     @tf.function
     def call(self, encoder_input, decoder_input):
