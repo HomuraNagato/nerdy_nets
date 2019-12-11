@@ -62,7 +62,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
         # print(prbs.shape)
         loss=tf.reduce_sum(tf.keras.losses.sparse_categorical_crossentropy(labels,prbs))
         # print(prbs[1])
-        # print(loss)
+        print(loss)
         # exit()
         return loss
     def produce_sentence(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):
@@ -70,6 +70,6 @@ class LSTM_Seq2Seq(tf.keras.Model):
         decoded_sentence = [ reverse_vocab[x] for x in decoded_symbols ]
         decoded_sentence = " ".join(decoded_sentence)
         ori_summary = " ".join([ reverse_vocab[x] for x in summary ])
-        print("original paragraph\n", ori_paragraph)
-        print("summary sentence\n", ori_summary)
-        print("decoded sentence\n", decoded_sentence)
+        # print("original paragraph\n", ori_paragraph)
+        # print("summary sentence\n", ori_summary)
+        # print("decoded sentence\n", decoded_sentence)
