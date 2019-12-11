@@ -38,10 +38,6 @@ class AttentionLayer(Layer):
         """
         assert type(inputs) == list
         encoder_out_seq, decoder_out_seq = inputs
-        if verbose:
-            # print('encoder_out_seq>', encoder_out_seq.shape)
-            # print('decoder_out_seq>', decoder_out_seq.shape)
-
         def energy_step(inputs, states):
             """ Step function for computing energy for a single decoder state """
 
