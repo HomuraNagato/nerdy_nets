@@ -1,0 +1,79 @@
+
+********************************
+iteration: 4 current_time: 182.8204963207245 average_training_time: 182.8204963207245 model loss: 7.49282693862915. perplexity: 1795.11962890625. gpt_loss: 17.79734992980957original paragraph
+ My then 10 month old son was the McDonalds playplace, just being a little goofball, when this ADORABLE little girl climbs in as well, the cutest little thing ever, about 5. She walks up to my fiancee and asks "Can I play with him?" and points to my son. She said sure and she climbs up and starts playing with him. Well, for about twenty minutes, they're giggling and laughing. When suddenly, she screams bloody murder. We turn around ... and then started laughing. 
+ It turns out my 10 month old son was as big as this 5 year old and her pinned down, pulling on her dress and trying to bite her cheek. It was adorably creepy. I had to climb in there and pull him off (easier said than done). She ran out and she promptly left with her mom. 
+ tl;dr: My 10 month old molests a 5 year old. >> 
+
+generated paragraph from gpt2
+* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP* and *STOP*
+original summary
+My 10 month old molests a 5 year old. >>
+generated summary from transformers
+*STOP* *STOP* *STOP* *STOP* *STOP* and *STOP* with *STOP* and *STOP* *STOP* and *STOP* and *STOP* and and and and and *STOP* *STOP* and *STOP* *STOP* and *STOP* *STOP* *STOP* *STOP* and
+
+********************************
+iteration: 8 current_time: 390.9937586784363 average_training_time: 195.49687933921814 model loss: 7.02886962890625. perplexity: 1128.7540283203125. gpt_loss: 19.200084686279297original paragraph
+ You can always refute clever logic with more clever logic, but when it comes to the nature of reality that shit ain't really quantifiable. Fun to think about, but it may be a distraction. 
+A monk named Malunkyaputta came to Gautama Buddha with questions regarding whether the universe was real or unreal, finite or infinite, etc.  He claimed that he could not continue his practice unless the enlightened one provided him with the answers to these questions.  The Buddha told him he was like a man who had been shot by a poisoned arrow and would not have it removed until he knew the name of the shooter and the maker of the arrow. 
+TL;DR: Stop worrying about shit that has no answer and start worrying about the shit that does 
+
+generated paragraph from gpt2
+* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP*
+original summary
+Stop worrying about shit that has no answer and start worrying about the shit that does
+generated summary from transformers
+*STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP*
+
+********************************
+iteration: 12 current_time: 669.267617225647 average_training_time: 223.08920574188232 model loss: 8.95270824432373. perplexity: 7728.794921875. gpt_loss: 20.550931930541992original paragraph
+ Nothing happened in my life to bring me round. I've had a slow burn on a lot of different issues. Until I was 12 I genuinely believed that men should be treated like women were in Victorian times. after that, the more I got into politics and issues, the more I cared about all sorts of issues, like proper feminism, the environment, charities, wars, gender and sexuality etc. 
+ It's been increasingly creeping me out this last decade the growing distrust of men and the alarmist stuff about rape and pedophilia (the latter culminating when a (female) pediatrician in England was hounded from her house by a bunch of illiterate locals). 
+ I have a father and a stepdad, neither of whom were much cop at being dads, and my mum always did the job enough for both of them, so I actually really have the archetypal angry feminist (I was also once in an abusive relationship with a man and was raped more than once - something I blame him for, not his gender). 
+ The one area that does make sense is that I've never been very good at gender roles - I am female and while I object to all the unspoken rules about appearance and behavior that are pressed on me, I have always identified as female - but I've often followed the male unspoken rules without really realising it - buying little presents for my husband, being uncomfortable around children because of how it might look if I make eye contact, holding doors open and all that stuff. I'm baffled by this preferential treatment women supposedly get online - that idea that you prove you're a woman with a picture and suddenly a goddess or something, because in my experience putting a picture of myself in most places means I'll be ridiculed. 
+ This was way longer than expected. TL;DR: Not who you'd expect to be into MR, never have a conversion moment, don;t really understand it myself. 
+
+generated paragraph from gpt2
+* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP
+original summary
+Not who you'd expect to be into MR, never have a conversion moment, don;t really understand it myself.
+generated summary from transformers
+*STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP*
+
+********************************
+iteration: 16 current_time: 957.8360390663147 average_training_time: 239.45900976657867 model loss: 6.535229682922363. perplexity: 688.9920043945312. gpt_loss: 20.27318572998047original paragraph
+ The Chinese system isn't exactly transparent, but there have been several decent attempts I've seen. 
+ The National People's Congress is basically a huge gathering of all the most important people in China (leaders, generals, party chiefs, governors, mayors, managers of big state-owned business etc.) and what regional officials consider to be 'grassroots' role models that can range from teachers and doctors, to farmers and scientists. Big important people make up 70%, and the role models 30%. 
+ The congress only happens every five years, and elects ~370 people to become part of the party's elite Central Committee (selected from a pool of people just a bit over ~370 - see a problem?). After being elected, this committee then chooses 24 members (who were also kind of pre-chosen by the state party's leadership anyway). Those 24 members (called the Politburo) decide the new standing committee. 
+ The new Standing Committee (which is the elite elite) is then revealed after the first meeting of the Central Committee. Currently has 9 members (so it's pretty exclusive) but it's rumoured that it'll go down to 7, which will make the quick decision making power of the Chinese government even quicker at making decisions as there'll be less discussion in the wake of reforms. The top of this elite elite standing comittee is the chair, who is also now the president of China. 
+ 
+ TL;DR  ~2700 Delegates and representatives from all over China elect a Central Committee (~370 from a pre-chosen party list), which in turn elects a Politburo (24 members). The Politburo then elects an exclusive 9-member committee called the Standing Committee, the head of this is the President. 
+ Edit: [shout out to custerc below for his last two paragraphs.]( and [TheAgora for a  much  more comprehensive explanation.]( 
+
+generated paragraph from gpt2
+* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *
+original summary
+2700 Delegates and representatives from all over China elect a Central Committee (~370 from a pre-chosen party list), which in turn elects a Politburo (24 members). The Politburo then elects an exclusive 9-member committee called the Standing Committee, the head of this is the President. 
+ Edit: [shout out to custerc below for his last two paragraphs.]( and [TheAgora for a  much  more comprehensive explanation.](
+generated summary from transformers
+*STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP*
+
+********************************
+iteration: 20 current_time: 1256.355153799057 average_training_time: 251.2710307598114 model loss: 6.849794864654541. perplexity: 943.6873168945312. gpt_loss: 19.32465934753418original paragraph
+ My sub and I are still figuring out our power exchange, but I am so happy and lucky to have her. Since this is my first  and only relationship with a strong Power Exchange dynamic, I have no one else to compare her to, but I can certainly tell what I like about her submission to me. 
+ 1) She is REALLY SMART and WISE. I know this because we talk all the time about every topic under the sun and she never ceases to amaze me with her wit, wisdom, insight and intelligence.
+2) She is VERY STRONG, not a wilting wallflower. I have seen her really angry on occasion (not at me). And she doesn't hesitate to speak her mind or stand up for herself. 
+ In spite of both of those points, her intelligence and her strength, she submits to me almost completely. In other words, I find it incredibly hot  that someone so smart, capable, competent and strong wants to submit to me and does so ao completely and willingly. 
+ Also, COMMUNICATION. As I said above, we talk all the time. This is in spite of being in a long distance relationship. We talk about everything. There is no hesitation or fear WHATSOEVER on either of our parts to say what we're thinking or what needs to be said. There is nothing worse for a relationship than wondering if you're "allowed" to say this  or that, for fear of crossing some line or causing offense. Neither of us do that. Ever. 
+ All that communication has resulted in a deep and profound level of TRUST. And in that trust, she submits to me (almost) completely and utterly. 
+ I am so fucking lucky, I dont even know what to do with myself. To be submitted to and (even better) LOVED by one such as her makes me so very happy. 
+ tl;dr --  me = luckiest dom in the world with the best submissive in the world. 
+ EDIT: fixed some grammatical errors. 
+
+generated paragraph from gpt2
+* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP*
+original summary
+me = luckiest dom in the world with the best submissive in the world. 
+ EDIT: fixed some grammatical errors.
+generated summary from transformers
+*STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP*

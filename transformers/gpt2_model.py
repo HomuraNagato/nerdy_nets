@@ -10,53 +10,11 @@ import pandas as pd
 
 from transformers import *
 
-'''
-train_window_size = 400
-test_window_size = 100
-
-def pad_corpus_ori(sentences, pad_token, window_size):
-    pad_sentences = []
-    i = 0
-    for text in sentences:
-        text = text.split()
-        extended_text = text[:window_size-1] + [pad_token] * (window_size - len(text)-1)
-        
-        pad_sentences.append(extended_text)
-        i += 1
-
-    return pad_sentences
-
-
-def pad_corpus(sentences, start_token, end_token, pad_token, window_size):
-    pad_sentences = []
-    i = 0
-    for text in sentences:
-        text = text.split()
-        extended_text = text[:window_size-1] + [pad_token] * (window_size - len(text)-1) + [end_token]
-        
-        pad_sentences.append(extended_text)
-        i += 1
-
-    return pad_sentences
-
-def pad_corpus_simul(train_sentences, test_sentences, special_tokens, train_window_size, test_window_size):
-    pad_sentences = []
-    i = 0
-    for train_text, test_text in zip(train_sentences, test_sentences):
-        train_text, test_text = train_text.split(), test_text.split()
-        extended_text = [special_tokens['bos_token']] + train_text[:train_window_size-1] + [special_tokens['pad_token']] * (train_window_size - len(train_text)-1) + [special_tokens['cls_token']] + \
-                        test_text[:test_window_size-1] + [special_tokens['pad_token']] * (test_window_size - len(test_text)-1) + [special_tokens['eos_token']]
-                                                                                          
-        pad_sentences.append(extended_text)
-        i += 1
-    #print("length of post-padded text", len(pad_sentences[0]))
-    return pad_sentences
-'''
 
 def sample_sentence(model, tokenizer, paragraph, summary):
 
-    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-    model = GPT2LMHeadModel.from_pretrained('gpt2')
+    #tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+    #model = GPT2LMHeadModel.from_pretrained('gpt2')
 
     
     initialized = tokenizer.encode(summary)
@@ -73,9 +31,8 @@ def sample_sentence(model, tokenizer, paragraph, summary):
     generated = []
     
     for i in range(paragraph_length):
-        #print("context", context, context.shape) # context is id of word
+
         output, past = model(context, past=past)
-        #print("logits (?) shape", output[0])
         #print("output being argmaxed", output.shape, "\t", output[0,:])
         token = torch.argmax(output[0, :])
         if token.numpy() > vocab_size:
