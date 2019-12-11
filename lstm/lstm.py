@@ -17,11 +17,11 @@ class LSTM_Seq2Seq(tf.keras.Model):
         self.paragraph_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.paragraph_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
         self.encoder = GRU(500, return_state = True, return_sequences = True)
         self.encoder1 = GRU(500, return_state = True, return_sequences = True)
-        self.encoder2 = GRU(500)    
+        self.encoder2 = GRU(500, return_state = True, return_sequences = True)    
 
         # self.inputs2 = Input(shape=(summary_window_size,))
         self.summary_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.summary_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
-        self.decoder = GRU(500, return_sequences = True)
+        self.decoder = GRU(500, return_state = True, return_sequences = True)
 
         self.attn_layer = AttentionLayer(name='attention_layer')
 
@@ -38,8 +38,8 @@ class LSTM_Seq2Seq(tf.keras.Model):
         embedding_summary = tf.nn.embedding_lookup(self.summary_embedding,decoder_input)
         encoder_outputs, state_h = self.encoder(embedding_paragraph)
         # encoder_outputs1, state_h1 = self.encoder1(encoder_outputs)
-        encoder_outputs2 = self.encoder2(encoder_outputs)
-        decoder_out= self.decoder(embedding_summary, encoder_outputs2)
+        encoder_outputs2, idk1 = self.encoder2(encoder_outputs)
+        decoder_out, idk = self.decoder(embedding_summary, idk1)
         # attn_out, attn_states = self.attn_layer([encoder_outputs2, decoder_out])
         # decoder_concat_input = concatenate([decoder_out, attn_out], axis=-1)
         dense_out = self.outputs(decoder_out)
