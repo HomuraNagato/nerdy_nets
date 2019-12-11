@@ -1,13 +1,18 @@
+
 import os
 import numpy as np
 import tensorflow as tf
 import numpy as np
-from preprocess import *
-from transformer_model import Transformer_Seq2Seq
 import sys
 import time
 
-tf.debugging.set_log_device_placement(True)
+from preprocess import *
+from transformer_model import Transformer_Seq2Seq
+from gpt2_model import *
+
+
+
+#tf.debugging.set_log_device_placement(True)
 print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 
 # largest paragraph: 1024. Largest Summary: 400.
@@ -15,9 +20,10 @@ PARAGRAPH_WINDOW_SIZE = 32  # window size is the largest sequnese we want to rea
 SUMMARY_WINDOW_SIZE = 32
 
 break_line = 1000
-print_line = 100
+print_line = 20
+gpt_line = 10
 
-def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary_window_size, eng_padding_index):
+def train(model, torch_model, tokenizer, file_name, vocab, reverse_vocab, paragraph_window_size, summary_window_size, eng_padding_index):
     """
     Train transformer model
 
@@ -37,15 +43,20 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
     for section in reader:
         #print("section['normalizedBody']: \n", section['normalizedBody'].tolist(), len(section['normalizedBody'].tolist()))
         train_steps += 1
-        
+        generate_index = 0
         # get paragraph and summary
-        train_batch = section['normalizedBody'].tolist()
-        test_batch = section['summary'].tolist()
+        train_words = section['normalizedBody'].tolist()
+        test_words = section['summary'].tolist()
+
+        # save first entry from batch for testing on gpt2
+        origin_paragraph = train_words[generate_index]
+        origin_summary = test_words[generate_index]
+        
         # normalize
         punc_mapping = str.maketrans('', '', string.punctuation)
         #train_words = [ w.translate(punc_mapping).lower() for paragraph in train_batch for w in paragraph.split() ]
-        train_words = [ w.translate(punc_mapping).lower() for w in train_batch ]
-        test_words = [ w.translate(punc_mapping).lower() for w in test_batch ]
+        train_words = [ w.translate(punc_mapping).lower() for w in train_words ]
+        test_words = [ w.translate(punc_mapping).lower() for w in test_words ]
         ori_train_words, ori_test_words = np.array(train_words), np.array(test_words)
 
         start_print, stop_print = 6, 8
@@ -91,22 +102,40 @@ def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary
         #print("section step", train_steps)
         print("step %02d / %02d" % (train_steps, break_line), end='\r')
 
-
         with tf.GradientTape() as tape:
             probs  = model(train_words, test_words)
             #print("probs", probs)
 
             loss = model.loss_function(probs, test_words, mask)
 
-            if train_steps % print_line == 0:
+            if (train_steps % gpt_line == 0) and (train_steps % print_line == 0):
+                
+                generated_summary = model.produce_sentence(probs[generate_index], reverse_vocab)
+                #gpt_loss, generated = sample_sentence(torch_model, tokenizer, origin_paragraph, origin_summary)
+                gpt_loss, generated = sample_sentence(torch_model, tokenizer, origin_paragraph, generated_summary)
+                
+                perplexity = tf.exp(loss)
+                model_loss = loss
+                loss += gpt_loss
                 
                 step_inter_time = time.time()
                 training_time.append(step_inter_time)
                 average_training_time = np.mean([ training_time[i+1] - training_time[i] for i, x in enumerate(training_time[-11:-1]) ])
-                perplexity = tf.exp(loss)
-                print("current_time: {} average_training_time: {} model loss: {}. perplexity: {}".format(step_inter_time-step_start_time, average_training_time, loss, perplexity))
+                #decoded_ori_paragraph = " ".join([ reverse_vocab[x] for x in train_words[generate_index].numpy() ])
+                #print("decoded original paragraph", decoded_ori_paragraph)
+                print("original paragraph\n", origin_paragraph, "\n")
+                print("generated paragraph from gpt2\n", generated, "\n")
+                print("original summary\n", origin_summary, "\n")
+                print("generated summary from transformers\n", generated_summary, "\n")
                 
-                model.produce_sentence(np.array(ori_train_words[0]), np.array(test_words[0]), probs[0], reverse_vocab, SUMMARY_WINDOW_SIZE)
+                print("current_time: {} average_training_time: {} model loss: {}. perplexity: {}. gpt_loss: {}".format(step_inter_time-step_start_time, average_training_time, model_loss, perplexity, gpt_loss))
+                
+            elif train_steps % gpt_line == 0:
+                
+                generated_summary = model.produce_sentence(probs[generate_index], reverse_vocab)
+                #gpt_loss, generated = sample_sentence(torch_model, tokenizer, origin_paragraph, origin_summary)
+                gpt_loss, generated_paragraph = sample_sentence(torch_model, tokenizer, origin_paragraph, generated_summary)
+                loss += gpt_loss
 
         if train_steps % break_line == 0:
             break
@@ -142,12 +171,12 @@ def test(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary_
         test_steps += 1
         
         # get paragraph and summary
-        train_batch = section['normalizedBody'].tolist()
-        test_batch = section['summary'].tolist()
+        train_words = section['normalizedBody'].tolist()
+        test_words = section['summary'].tolist()
         # normalize
         punc_mapping = str.maketrans('', '', string.punctuation)
-        train_words = [ w.translate(punc_mapping).lower() for w in train_batch ]
-        test_words = [ w.translate(punc_mapping).lower() for w in test_batch ]
+        train_words = [ w.translate(punc_mapping).lower() for w in train_words ]
+        test_words = [ w.translate(punc_mapping).lower() for w in test_words ]
         ori_train_words, ori_test_words = np.array(train_words), np.array(test_words)
         # fix length
         train_words = pad_corpus(train_words, paragraph_window_size)
@@ -182,21 +211,24 @@ def main():
 
     vocab = initialize_vocab('../data/reduced_vocab.csv')
     reverse_vocab = {idx:word for word, idx in vocab.items()}
-    print("vocab length:", len(vocab), "vocab unk", vocab[UNK_TOKEN])
     
     padding_index = vocab[PAD_TOKEN]
     
     model = Transformer_Seq2Seq(len(vocab), PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE)
+    
+    torch_model = GPT2LMHeadModel.from_pretrained('gpt2')
+    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+
 
     print("training model")
-    train(model, '../data/tldr_train80.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
-
+    train(model, torch_model, tokenizer, '../data/tldr_train80.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
+    '''
     loss, accuracy = test(model, '../data/tldr_test20.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
     perplexity = np.exp(loss)
     print("model test perplexity: {}. model test accuracy: {}".format(perplexity, accuracy))
     end_time = time.time()
     print("The model took:", end_time-start_time,"seconds to train")
-
+    '''
 
 if __name__ == '__main__':
     main()
