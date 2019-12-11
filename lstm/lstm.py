@@ -34,7 +34,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
         :param decoder_input: batched ids corresponding to english sentences
         :return prbs: The 3d probabilities as a tensor, [batch_size x window_size x english_vocab_size]
         """
-        with tf.compat.v1.Session() as sess:  print(encoder_input.eval()) 
+        tf.print(encoder_input)
         exit()
         embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding,encoder_input)
         embedding_summary = tf.nn.embedding_lookup(self.summary_embedding,decoder_input)
