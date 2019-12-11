@@ -40,9 +40,9 @@ class LSTM_Seq2Seq(tf.keras.Model):
         # encoder_outputs1, state_h1 = self.encoder1(encoder_outputs)
         encoder_outputs2 = self.encoder2(encoder_outputs)
         decoder_out= self.decoder(embedding_summary, encoder_outputs2)
-        attn_out, attn_states = self.attn_layer([encoder_outputs2, decoder_out])
-        decoder_concat_input = concatenate([decoder_out, attn_out], axis=-1)
-        dense_out = self.outputs(decoder_concat_input)
+        # attn_out, attn_states = self.attn_layer([encoder_outputs2, decoder_out])
+        # decoder_concat_input = concatenate([decoder_out, attn_out], axis=-1)
+        dense_out = self.outputs(decoder_out)
         return dense_out
 
     def accuracy_function(self, prbs, labels, mask):
