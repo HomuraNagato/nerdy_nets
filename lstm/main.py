@@ -16,7 +16,7 @@ PARAGRAPH_WINDOW_SIZE = 32  # window size is the largest sequnese we want to rea
 SUMMARY_WINDOW_SIZE = 32
 
 break_line = 1000
-print_line = 100
+print_line = 10
 
 def train(model, file_name, vocab, reverse_vocab, paragraph_window_size, summary_window_size, eng_padding_index):
     """
