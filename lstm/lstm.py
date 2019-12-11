@@ -12,7 +12,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
         self.vocab_size = vocab_size
         self.batch_size = 100
         self.embedding_size = 15
-        self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.001, clipvalue=0.5, clipnorm = 1.)
+        self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.001)
 
         self.paragraph_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.paragraph_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
         self.paragraph_embedding1 = Embedding(self.vocab_size, self.embedding_size, input_length = self.paragraph_window_size)
