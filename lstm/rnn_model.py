@@ -21,8 +21,8 @@ class RNN_Seq2Seq(tf.keras.Model):
 		self.summary_embedding = tf.Variable(tf.random.truncated_normal([ self.summary_window_size, self.embedding_size],stddev=0.01,dtype=tf.float32))
         
         # Define encoder and decoder layers:
-		self.layer = tf.keras.layers.LSTM(80)
-		self.decoder = tf.keras.layers.LSTM(80 , return_sequences = True)
+		self.encoder = tf.keras.layers.GRU(80)
+		self.decoder = tf.keras.layers.GRU(80 , return_sequences = True)
 		self.dense_layer = tf.keras.layers.Dense(self.vocab_size, activation='softmax')
 		
 	@tf.function
@@ -40,8 +40,8 @@ class RNN_Seq2Seq(tf.keras.Model):
 		embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding, encoder_input)
 		embedding_summary = tf.nn.embedding_lookup(self.summary_embedding, decoder_input)
 		out = self.encoder(embedding_paragraph)
-		out1= self.decoder(embedding_summary, out[0])
-		dense_out = self.dense_layer(out1[0])
+		out1= self.decoder(embedding_summary, out)
+		dense_out = self.dense_layer(out1)
 		return dense_out
 
 	def accuracy_function(self, prbs, labels, mask):
@@ -70,6 +70,16 @@ class RNN_Seq2Seq(tf.keras.Model):
 		:param mask:  tensor that acts as a padding mask [batch_size x window_size]
 		:return: the loss of the model as a tensor
 		"""
+		print(labels.shape)
+		print(prbs.shape)
 		loss=tf.reduce_sum(tf.keras.losses.sparse_categorical_crossentropy(labels,prbs)*mask)
 		return loss
 
+	def produce_sentence(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):
+		decoded_symbols = np.argmax(prbs, axis=1)
+		decoded_sentence = [ reverse_vocab[x] for x in decoded_symbols ]
+		decoded_sentence = " ".join(decoded_sentence)
+		ori_summary = " ".join([ reverse_vocab[x] for x in summary ])
+		print("original paragraph\n", ori_paragraph)
+		print("summary sentence\n", ori_summary)
+		print("decoded sentence\n", decoded_sentence)
