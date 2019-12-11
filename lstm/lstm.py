@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras import Input
-from tensorflow.keras.layers import Embedding, LSTM, concatenate, Dense, TimeDistributed
+from tensorflow.keras.layers import Embedding, LSTM, concatenate, Dense, TimeDistributed, GRU
 from attention import AttentionLayer
 
 class LSTM_Seq2Seq(tf.keras.Model):
@@ -15,13 +15,13 @@ class LSTM_Seq2Seq(tf.keras.Model):
         self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.001, beta_1 = 0.9)
 
         self.paragraph_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.paragraph_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
-        self.encoder = LSTM(500, return_state = True, return_sequences = True)
-        self.encoder1 = LSTM(500, return_state = True, return_sequences = True)
-        self.encoder2 = LSTM(500, return_state = True, return_sequences = True)    
+        self.encoder = GRU(500, return_state = True, return_sequences = True)
+        self.encoder1 = GRU(500, return_state = True, return_sequences = True)
+        self.encoder2 = GRU(500, return_state = True, return_sequences = True)    
 
         # self.inputs2 = Input(shape=(summary_window_size,))
         self.summary_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.summary_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
-        self.decoder = LSTM(500, return_sequences = True)
+        self.decoder = GRU(500, return_sequences = True)
 
         self.attn_layer = AttentionLayer(name='attention_layer')
 
@@ -36,11 +36,10 @@ class LSTM_Seq2Seq(tf.keras.Model):
         """
         embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding,encoder_input)
         embedding_summary = tf.nn.embedding_lookup(self.summary_embedding,decoder_input)
-        encoder_outputs, state_h, state_c = self.encoder(embedding_paragraph)
-        encoder_outputs1, state_h1, state_c1 = self.encoder1(encoder_outputs)
-        encoder_outputs2, state_h2, state_c2 = self.encoder2(encoder_outputs1)
-        encoder_states = [state_h2, state_c2]
-        decoder_out= self.decoder(embedding_summary, initial_state=encoder_states)
+        encoder_outputs, state_h = self.encoder(embedding_paragraph)
+        encoder_outputs1, state_h1 = self.encoder1(encoder_outputs)
+        encoder_outputs2, state_h2 = self.encoder2(encoder_outputs1)
+        decoder_out= self.decoder(embedding_summary, initial_state=state_h2)
         attn_out, attn_states = self.attn_layer([encoder_outputs2, decoder_out])
         decoder_concat_input = concatenate([decoder_out, attn_out], axis=-1)
         dense_out = self.outputs(decoder_concat_input)
