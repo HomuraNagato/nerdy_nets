@@ -74,6 +74,8 @@ class LSTM_Seq2Seq(tf.keras.Model):
         return loss
     def produce_sentence(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):
         decoded_symbols = np.argmax(prbs, axis=1)
+        print(decoded_symbols)
+        exit()
         decoded_sentence = [ reverse_vocab[x] for x in decoded_symbols ]
         decoded_sentence = " ".join(decoded_sentence)
         ori_summary = " ".join([ reverse_vocab[x] for x in summary ])
