@@ -15,6 +15,8 @@ class LSTM_Seq2Seq(tf.keras.Model):
         self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.001, clipvalue=0.5, clipnorm = 1.)
 
         self.paragraph_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.paragraph_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
+        self.paragraph_embedding1 = Embedding(self.vocab_size, self.embedding_size, input_length = self.paragraph_window_size)
+        self.summary_embedding1 = Embedding(self.vocab_size, self.embedding_size, input_length = self.summary_window_size)
         self.encoder = LSTM(80, activation ='relu', return_state = True, return_sequences = True)
         self.encoder1 = LSTM(80, return_state = True, return_sequences = True)
         self.encoder2 = LSTM(80, return_state = True, return_sequences = True)    
@@ -34,8 +36,10 @@ class LSTM_Seq2Seq(tf.keras.Model):
         :param decoder_input: batched ids corresponding to english sentences
         :return prbs: The 3d probabilities as a tensor, [batch_size x window_size x english_vocab_size]
         """
-        embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding,encoder_input)
-        embedding_summary = tf.nn.embedding_lookup(self.summary_embedding,decoder_input)
+        embedding_paragraph = self.paragraph_embedding1(encoder_input)
+        embedding_summary = self.summary_embedding1(decoder_input)
+        # embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding,encoder_input)
+        # embedding_summary = tf.nn.embedding_lookup(self.summary_embedding,decoder_input)
         encoder_outputs, state_h, state_c = self.encoder(embedding_paragraph)
         # encoder_outputs1, state_h1, state_c1 = self.encoder1(encoder_outputs)
         # encoder_outputs2, state_h2, state_c2 = self.encoder2(encoder_outputs1)
@@ -43,7 +47,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
         decoder_out= self.decoder(embedding_summary, initial_state=encoder_states)
         # attn_out, attn_states = self.attn_layer([encoder_outputs2, decoder_out])
         # decoder_concat_input = concatenate([decoder_out, attn_out], axis=-1)
-        dense_out = self.outputs(decoder_out)
+        dense_out = self.outputs(decoder_out[0])
         return dense_out
 
     def accuracy_function(self, prbs, labels, mask):
