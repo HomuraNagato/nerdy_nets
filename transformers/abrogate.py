@@ -1,13 +1,14 @@
 
 import string
 import json
+import jsonlines
 import numpy as np
 import pandas as pd
 
 
 if __name__ == '__main__':
 
-    file_path = '../data/tldr_train80.jsonl'
+    file_path = '../data/tldr-training-data.jsonl'
     batch_size = 100
     reader = pd.read_json(file_path, precise_float=True, dtype=False, lines=True, chunksize=batch_size)
 
@@ -17,7 +18,6 @@ if __name__ == '__main__':
     i = 0
     num_excluded = 0
 
-    json_out = {}
     
     for section in reader:
         train_batch = section['normalizedBody'].tolist()
@@ -33,14 +33,12 @@ if __name__ == '__main__':
                 punc_mapping = str.maketrans('', '', string.punctuation)
                 train_words = [ w.translate(punc_mapping).lower() for w in train ]
                 test_words = [ w.translate(punc_mapping).lower() for w in test ]
-
+                json_out = {'i': i, 'train': ''.join(train_words), 'test': ''.join(test_words) }
                 i += 1
-                json_out[i] = { 'train': train, 'test': test }
+                
+                with jsonlines.open('cleaned_data.json', mode='a') as writer:
+                    writer.write(json_out)
+                
 
-            else:
-                num_excluded += 1
 
 
-
-    with open('cleaned_data.json', 'w') as json_file:
-        json.dump(json_out, json_file)

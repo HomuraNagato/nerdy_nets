@@ -116,7 +116,10 @@ class Transformer_Seq2Seq(tf.keras.Model):
         loss = tf.reduce_mean(loss)
         return loss
 
-    def produce_sentence(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):
+    def produce_sentence_by_array(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):
+        """
+        prbs (embedding_size x vocab_size)
+        """
 
         decoded_symbols = np.argmax(prbs, axis=1)
         decoded_sentence = [ reverse_vocab[x] for x in decoded_symbols ]
@@ -126,3 +129,16 @@ class Transformer_Seq2Seq(tf.keras.Model):
         print("original paragraph\n", ori_paragraph)
         print("summary sentence\n", ori_summary)
         print("decoded sentence\n", decoded_sentence)
+        
+        return decoded_sentence
+
+    def produce_sentence(self, prbs, reverse_vocab):
+        """
+        prbs (embedding_size x vocab_size)
+        """
+
+        decoded_symbols = np.argmax(prbs, axis=1)
+        decoded_sentence = [ reverse_vocab[x] for x in decoded_symbols ]
+        decoded_sentence = " ".join(decoded_sentence)
+        
+        return decoded_sentence    
