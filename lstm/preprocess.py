@@ -65,7 +65,7 @@ def build_vocab_set(file_name):
             reduced_vocab[word] = identifier
             identifier += 1
     
-    print("vocab size", len(vocab), len(reduced_vocab))
+    # print("vocab size", len(vocab), len(reduced_vocab))
 
     with open('vocab.csv', 'w') as f:
         f.write("word,index\n")
@@ -109,7 +109,7 @@ def identify_longest_paragraph(file_name):
             if summary_len > longest_summary:
                 longest_summary = summary_len
 
-    print("The longest paragraph:", longest_paragraph, "The longest summary:", longest_summary)
+    # print("The longest paragraph:", longest_paragraph, "The longest summary:", longest_summary)
 
 
 def identify_num_sentences(file_name):
@@ -129,12 +129,12 @@ def identify_num_sentences(file_name):
                 large_summaries.append(summary_len)
             num_sentences += 1
             summaries.append(summary_len)
-    print(i, "steps with batch size", 100)
-    print("average summary num sentences:", np.mean(summaries))
-    print("average large summary num sentences:", np.mean(large_summaries))
-    print("number of sentences", num_sentences)
-    print("number of large sentences", num_large_sentences)
-    print("average", num_large_sentences / num_sentences)
+    # print(i, "steps with batch size", 100)
+    # print("average summary num sentences:", np.mean(summaries))
+    # print("average large summary num sentences:", np.mean(large_summaries))
+    # print("number of sentences", num_sentences)
+    # print("number of large sentences", num_large_sentences)
+    # print("average", num_large_sentences / num_sentences)
 
 
     
@@ -151,7 +151,7 @@ def convert_to_id(vocab, sentences):
     #print("sentences shape:", len(sentences), len(sentences[0]))
     for sentence in sentences:
         if len(sentence) != SUMMARY_WINDOW_SIZE:
-            print("sentence not in right shape:", len(sentence))
+            # print("sentence not in right shape:", len(sentence))
     return np.stack([[vocab[word] if word in vocab else vocab[UNK_TOKEN] for word in sentence] for sentence in sentences])
 
 
@@ -188,11 +188,11 @@ def pad_corpus(sentences, window_size):
 if __name__ == '__main__':
     # get_data('../data/tldr-training-data.jsonl')
     #build_vocab_set('../data/tldr-training-data.jsonl')
-    print("loading vocab...")
+    # print("loading vocab...")
     #vocab = initialize_vocab('../data/reduced_vocab.csv')
 
     #identify_longest_paragraph('../data/tldr-training-data.jsonl')
     #identify_num_sentences('../data/tldr-training-data.jsonl')
     vocab = initialize_vocab('../data/reduced_vocab.csv')
-    print("vocab length:", len(vocab), "vocab unk", vocab[UNK_TOKEN])
+    # print("vocab length:", len(vocab), "vocab unk", vocab[UNK_TOKEN])
     
