@@ -71,8 +71,8 @@ class RNN_Seq2Seq(tf.keras.Model):
 		:return: the loss of the model as a tensor
 		"""
 		loss=tf.reduce_sum(tf.keras.losses.sparse_categorical_crossentropy(labels,prbs)*mask)
-		print(prbs[1])
-		print(loss)
+		# print(prbs[1])
+		# print(loss)
 		return loss
 
 	def produce_sentence(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):
