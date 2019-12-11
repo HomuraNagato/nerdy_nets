@@ -14,7 +14,7 @@ class RNN_Seq2Seq(tf.keras.Model):
 		# Define batch size and optimizer/learning rate
 		self.batch_size = 100
 		self.embedding_size = 15
-		self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.01)
+		self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.009, beta_1 = 0.9)
 	
 	
 		self.paragraph_embedding = tf.Variable(tf.random.truncated_normal([ self.paragraph_window_size, self.embedding_size],stddev=0.01,dtype=tf.float32))
@@ -70,9 +70,9 @@ class RNN_Seq2Seq(tf.keras.Model):
 		:param mask:  tensor that acts as a padding mask [batch_size x window_size]
 		:return: the loss of the model as a tensor
 		"""
-		print(labels.shape)
-		print(prbs.shape)
 		loss=tf.reduce_sum(tf.keras.losses.sparse_categorical_crossentropy(labels,prbs)*mask)
+		# print(prbs[1])
+		# print(loss)
 		return loss
 
 	def produce_sentence(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):

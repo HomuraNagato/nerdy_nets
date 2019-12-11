@@ -12,16 +12,16 @@ class LSTM_Seq2Seq(tf.keras.Model):
         self.vocab_size = vocab_size
         self.batch_size = 100
         self.embedding_size = 15
-        self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.01)
+        self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.001, clipvalue=0.5, clipnorm = 1.)
 
         self.paragraph_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.paragraph_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
-        self.encoder = LSTM(500, return_state = True, return_sequences = True)
-        self.encoder1 = LSTM(500, return_state = True, return_sequences = True)
-        self.encoder2 = LSTM(500, return_state = True, return_sequences = True)    
+        self.encoder = LSTM(50, return_state = True, return_sequences = True)
+        self.encoder1 = LSTM(50, return_state = True, return_sequences = True)
+        self.encoder2 = LSTM(50, return_state = True, return_sequences = True)    
 
         # self.inputs2 = Input(shape=(summary_window_size,))
         self.summary_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.summary_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
-        self.decoder = LSTM(500, return_sequences = True)
+        self.decoder = LSTM(50, return_sequences = True)
 
         self.attn_layer = AttentionLayer(name='attention_layer')
 
@@ -34,17 +34,16 @@ class LSTM_Seq2Seq(tf.keras.Model):
         :param decoder_input: batched ids corresponding to english sentences
         :return prbs: The 3d probabilities as a tensor, [batch_size x window_size x english_vocab_size]
         """
-        print(encoder_input)
         embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding,encoder_input)
         embedding_summary = tf.nn.embedding_lookup(self.summary_embedding,decoder_input)
         encoder_outputs, state_h, state_c = self.encoder(embedding_paragraph)
-        encoder_outputs1, state_h1, state_c1 = self.encoder1(encoder_outputs)
-        encoder_outputs2, state_h2, state_c2 = self.encoder2(encoder_outputs1)
-        encoder_states = [state_h2, state_c2]
+        # encoder_outputs1, state_h1, state_c1 = self.encoder1(encoder_outputs)
+        # encoder_outputs2, state_h2, state_c2 = self.encoder2(encoder_outputs1)
+        encoder_states = [state_h, state_c]
         decoder_out= self.decoder(embedding_summary, initial_state=encoder_states)
-        attn_out, attn_states = self.attn_layer([encoder_outputs2, decoder_out])
-        decoder_concat_input = concatenate([decoder_out, attn_out], axis=-1)
-        dense_out = self.outputs(decoder_concat_input)
+        # attn_out, attn_states = self.attn_layer([encoder_outputs2, decoder_out])
+        # decoder_concat_input = concatenate([decoder_out, attn_out], axis=-1)
+        dense_out = self.outputs(decoder_out)
         return dense_out
 
     def accuracy_function(self, prbs, labels, mask):
@@ -62,7 +61,10 @@ class LSTM_Seq2Seq(tf.keras.Model):
         # print(labels.shape)
         # print(prbs.shape)
         loss=tf.reduce_sum(tf.keras.losses.sparse_categorical_crossentropy(labels,prbs))
-        # print(prbs[1])
+        # print(labels[1])
+        print(prbs[1])
+        print(loss)
+        exit()
         return loss
     def produce_sentence(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):
         decoded_symbols = np.argmax(prbs, axis=1)
