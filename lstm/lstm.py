@@ -14,7 +14,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
         self.embedding_size = 15
         self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.001)
 
-        self.paragraph_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.paragraph_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
+        # self.paragraph_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.paragraph_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
         self.paragraph_embedding1 = Embedding(self.vocab_size, self.embedding_size, input_length = self.paragraph_window_size)
         self.summary_embedding1 = Embedding(self.vocab_size, self.embedding_size, input_length = self.summary_window_size)
         self.encoder = LSTM(80, activation ='relu', return_state = True, return_sequences = True)
@@ -22,7 +22,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
         self.encoder2 = LSTM(80, activation ='relu', return_state = True, return_sequences = True)
 
         # self.inputs2 = Input(shape=(summary_window_size,))
-        self.summary_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.summary_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
+        # self.summary_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.summary_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
         self.decoder = LSTM(80, activation ='relu', return_state = True, return_sequences = True)
 
         self.attn_layer = AttentionLayer(name='attention_layer')
