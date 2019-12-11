@@ -25,7 +25,7 @@ def pre_process(text):
 
 df_idf['text'] = df_idf['train'] + df_idf['test']
 df_idf['text'] = df_idf['text'].apply(lambda x:pre_process(x))
-#df_idf['text'][1]
+df_idf['text'][1]
  
 print("Text:",df_idf['text'][1])
 
