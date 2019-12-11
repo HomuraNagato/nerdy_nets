@@ -1,0 +1,34 @@
+
+********************************
+iteration: 20 current_time: 1074.132777929306 average_training_time: 1074.132777929306 model loss: 6.850522041320801. perplexity: 944.373779296875. gpt_loss: 19.32465934753418original paragraph
+ My sub and I are still figuring out our power exchange, but I am so happy and lucky to have her. Since this is my first  and only relationship with a strong Power Exchange dynamic, I have no one else to compare her to, but I can certainly tell what I like about her submission to me. 
+ 1) She is REALLY SMART and WISE. I know this because we talk all the time about every topic under the sun and she never ceases to amaze me with her wit, wisdom, insight and intelligence.
+2) She is VERY STRONG, not a wilting wallflower. I have seen her really angry on occasion (not at me). And she doesn't hesitate to speak her mind or stand up for herself. 
+ In spite of both of those points, her intelligence and her strength, she submits to me almost completely. In other words, I find it incredibly hot  that someone so smart, capable, competent and strong wants to submit to me and does so ao completely and willingly. 
+ Also, COMMUNICATION. As I said above, we talk all the time. This is in spite of being in a long distance relationship. We talk about everything. There is no hesitation or fear WHATSOEVER on either of our parts to say what we're thinking or what needs to be said. There is nothing worse for a relationship than wondering if you're "allowed" to say this  or that, for fear of crossing some line or causing offense. Neither of us do that. Ever. 
+ All that communication has resulted in a deep and profound level of TRUST. And in that trust, she submits to me (almost) completely and utterly. 
+ I am so fucking lucky, I dont even know what to do with myself. To be submitted to and (even better) LOVED by one such as her makes me so very happy. 
+ tl;dr --  me = luckiest dom in the world with the best submissive in the world. 
+ EDIT: fixed some grammatical errors. 
+
+generated paragraph from gpt2
+* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP*
+original summary
+me = luckiest dom in the world with the best submissive in the world. 
+ EDIT: fixed some grammatical errors.
+generated summary from transformers
+*STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP*
+
+********************************
+iteration: 40 current_time: 2082.213319301605 average_training_time: 1041.1066596508026 model loss: 4.198372840881348. perplexity: 66.57791137695312. gpt_loss: 19.7117862701416original paragraph
+ I take my pup to day care and it has been a godsend. He goes about twice a week.  They alternate between free play and crate time. When he gets home he is soo tired he naps the rest of the day.  I imagine he is still tired the next day, because he is generally pretty chill, even when I have to crate him (both hubster and I work full time).  He gets so excited when the dog bus comes that he starts crying and runs right onto the bus and onto his seat.  My puppy is about 5 months old. 
+ Like others have said, it depends on the specific place. The person who runs this day is amazing and can perfectly replicate dog noises.  On the first day,Rocko (my pup) barked a lot in the kennel. But Jill did dog noises at him (growling/scolding) and by day 2 he wasn't barking AT ALL!  She sends me picture and video texts throughout the day as well. 
+ Then again, I used to take Rocko to the dog park 2-3 days a week (now down to once a week) so he had a lot of experience playing with other dogs and he went to puppy school. 
+ TL;DR: My pup is tired as hell after daycare! 
+
+generated paragraph from gpt2
+* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP
+original summary
+My pup is tired as hell after daycare!
+generated summary from transformers
+*STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP* *STOP*

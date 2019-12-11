@@ -35,7 +35,6 @@ def train(model, torch_model, tokenizer, file_name, vocab, reverse_vocab, paragr
     """
     optimizer = tf.keras.optimizers.Adam(learning_rate=0.01)
     
-    result_file = open("result_file.txt", "w+")
     reader = pd.read_json(file_name, precise_float=True, dtype=False, lines=True, chunksize=10)
     train_steps = 0
     step_start_time = time.time()
@@ -133,17 +132,17 @@ def train(model, torch_model, tokenizer, file_name, vocab, reverse_vocab, paragr
                     print("generated summary from transformers\n", generated_summary, "\n")
 
                     print("current_time: {} average_training_time: {} model loss: {}. perplexity: {}. gpt_loss: {}".format(step_inter_time-step_start_time, average_training_time, model_loss, perplexity, gpt_loss))
-                    result_file.write("\n********************************\n")
-                    result_file.write("iteration: {} current_time: {} average_training_time: {} model loss: {}. perplexity: {}. gpt_loss: {}".format(train_steps, step_inter_time-step_start_time, average_training_time, model_loss, perplexity, gpt_loss))
-                    result_file.write("original paragraph\n", origin_paragraph, "\n")
-                    result_file.write("generated paragraph from gpt2\n", generated, "\n")
-                    result_file.write("original summary\n", origin_summary, "\n")
-                    result_file.write("generated summary from transformers\n", generated_summary, "\n")
-                    exit(1)
+                    with open("result_file.txt", "w+") as result_file:
+                        result_file.write("\n********************************\n")
+                        result_file.write("iteration: {} current_time: {} average_training_time: {} model loss: {}. perplexity: {}. gpt_loss: {}\n".format(train_steps, step_inter_time-step_start_time, average_training_time, model_loss, perplexity, gpt_loss))
+                        result_file.write("original paragraph\n {}\n".format(origin_paragraph))
+                        result_file.write("generated paragraph from gpt2\n{}\n".format(generated))
+                        result_file.write("original summary\n{}\n".format(origin_summary))
+                        result_file.write("generated summary from transformers\n{}\n".format(generated_summary))
+
                     
 
         if train_steps % break_line == 0:
-            result_file.close()
             break
                 
         trainable_variables = model.trainable_variables
@@ -227,14 +226,15 @@ def main():
 
 
     print("training model")
-    train(model, torch_model, tokenizer, '../data/tldr_train80.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
-
+    #train(model, torch_model, tokenizer, '../data/tldr_train80.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
+    train(model, torch_model, tokenizer, '../data/tldr-training-data.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
+    '''
     loss, accuracy = test(model, '../data/tldr_test20.jsonl', vocab, reverse_vocab, PARAGRAPH_WINDOW_SIZE, SUMMARY_WINDOW_SIZE, padding_index)
     perplexity = np.exp(loss)
     print("model test perplexity: {}. model test accuracy: {}".format(perplexity, accuracy))
     end_time = time.time()
     print("The model took:", end_time-start_time,"seconds to train")
-
+    '''
 
 if __name__ == '__main__':
     main()

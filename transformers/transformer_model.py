@@ -19,7 +19,7 @@ class Transformer_Seq2Seq(tf.keras.Model):
         self.batch_size = 100
         self.embedding_size = 15
 
-        # Define english and french embedding layers:
+        # Define paragraph and summaery embedding layers
         self.embedding_layer = tf.keras.layers.Embedding(self.vocab_size, self.embedding_size, input_length=self.window_size)
         self.summary_embedding_layer = tf.keras.layers.Embedding(self.vocab_size, self.embedding_size, input_length=self.summary_window_size)
 
@@ -64,21 +64,19 @@ class Transformer_Seq2Seq(tf.keras.Model):
         '''
 
         #print("transformer input", encoder_input.shape)
+        
         embedding = self.embedding_layer(encoder_input)
         embedding = self.positional_layer(embedding)
-        #print("embedding", embedding.shape)
+
         encoder_output = self.encoder_transformer(embedding)
-        #print("encoder_output", encoder_output.shape)
 
         summary_embedding = self.summary_embedding_layer(summary_input)
         summary_embedding = self.summary_positional_layer(summary_embedding)
-        #print("summary embedding", summary_embedding.shape)
         
         decoder_output = self.decoder_transformer(summary_embedding, encoder_output)
-        #print("decoder_output", decoder_output.shape)
 
         dense = self.dense(decoder_output)
-        #print("returning dense", dense.shape)
+
         return dense
 
     def accuracy_function(self, prbs, labels, mask):

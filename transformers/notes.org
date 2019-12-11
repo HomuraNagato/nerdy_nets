@@ -4,6 +4,16 @@
 GCP - Tesla K80
 installed nvtop for htop like viewing of GPU
 
+* split data
+
+total number of lines: 3084410
+2467528 = 80%
+2400000
+
+cmd to split data
+split -l 2400000 tldr-training-data.jsonl split_
+ - rename split into train and test
+
 * meta data 
 
 vocab size:          3053570 
@@ -44,3 +54,4 @@ summary sentence
  you acted like an adult she did not i would be surprised if anything came *STOP*
 decoded sentence
  you group like an became she did not i would be community if anything entire *STOP*
+ 
