@@ -41,9 +41,9 @@ class LSTM_Seq2Seq(tf.keras.Model):
         # embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding,encoder_input)
         # embedding_summary = tf.nn.embedding_lookup(self.summary_embedding,decoder_input)
         encoder_outputs, state_h, state_c = self.encoder(embedding_paragraph)
-        encoder_outputs1, state_h1, state_c1 = self.encoder1(encoder_outputs)
+        # encoder_outputs1, state_h1, state_c1 = self.encoder1(encoder_outputs)
         # encoder_outputs2, state_h2, state_c2 = self.encoder2(encoder_outputs1)
-        encoder_states = [state_h1, state_c1]
+        encoder_states = [state_h, state_c]
         decoder_out= self.decoder(embedding_summary, initial_state=encoder_states)
         # attn_out, attn_states = self.attn_layer([encoder_outputs2, decoder_out[0]])
         # decoder_concat_input = concatenate([decoder_out[0], attn_out], axis=-1)
