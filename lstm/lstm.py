@@ -60,7 +60,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
         """
         # print(labels.shape)
         # print(prbs.shape)
-        loss=tf.reduce_sum(tf.keras.losses.sparse_categorical_crossentropy(labels,prbs)*mask)
+        loss=tf.reduce_sum(tf.keras.losses.sparse_categorical_crossentropy(labels,prbs))
         print(loss)
         return loss
     def produce_sentence(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):
