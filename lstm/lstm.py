@@ -15,13 +15,13 @@ class LSTM_Seq2Seq(tf.keras.Model):
         self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.01)
 
         self.paragraph_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.paragraph_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
-        self.encoder = LSTM(500, return_state = True, return_sequences = True)
-        self.encoder1 = LSTM(500, return_state = True, return_sequences = True)
-        self.encoder2 = LSTM(500, return_state = True, return_sequences = True)    
+        self.encoder = LSTM(50, return_state = True, return_sequences = True)
+        self.encoder1 = LSTM(50, return_state = True, return_sequences = True)
+        self.encoder2 = LSTM(50, return_state = True, return_sequences = True)    
 
         # self.inputs2 = Input(shape=(summary_window_size,))
         self.summary_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.summary_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
-        self.decoder = LSTM(500, return_sequences = True)
+        self.decoder = LSTM(50, return_sequences = True)
 
         self.attn_layer = AttentionLayer(name='attention_layer')
 
@@ -35,8 +35,6 @@ class LSTM_Seq2Seq(tf.keras.Model):
         :return prbs: The 3d probabilities as a tensor, [batch_size x window_size x english_vocab_size]
         """
         embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding,encoder_input)
-        print(embedding_paragraph[1][1])
-        exit()
         embedding_summary = tf.nn.embedding_lookup(self.summary_embedding,decoder_input)
         encoder_outputs, state_h, state_c = self.encoder(embedding_paragraph)
         encoder_outputs1, state_h1, state_c1 = self.encoder1(encoder_outputs)
