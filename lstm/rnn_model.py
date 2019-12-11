@@ -70,12 +70,10 @@ class RNN_Seq2Seq(tf.keras.Model):
 		:param mask:  tensor that acts as a padding mask [batch_size x window_size]
 		:return: the loss of the model as a tensor
 		"""
-		# print(labels.shape)
-		# print(prbs.shape)
 		loss=tf.reduce_sum(tf.keras.losses.sparse_categorical_crossentropy(labels,prbs)*mask)
-        print(prbs[1])
-        print(loss)
-        exit()
+		print(prbs[1])
+		print(loss)
+		exit()
 		return loss
 
 	def produce_sentence(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):
