@@ -8,8 +8,8 @@ import re
 df_idf=pd.read_json("file_1.json",lines=True)     #54MB file after splitting the 3GB preprocessed file
  
 # print schema
-#print("Schema:\n\n",df_idf.dtypes)
-#print("Number of queries,columns=",df_idf.shape)
+print("Schema:\n\n",df_idf.dtypes)
+print("Number of queries,columns=",df_idf.shape)
 #print("Text:",df_idf)
 def pre_process(text):
     
@@ -72,9 +72,9 @@ sorted_items=sort_keywords(tf_idf_vector.tocoo())
 #extract only the top n; n here is 10
 keywords=extract_topn_from_vector(feature_names,sorted_items,10)
  
-print("\n=====Doc=====")
+print("\n Doc:")
 print(doc)
-print("\n===Keywords===")
+print("\n Keywords:")
 for k in keywords:
     print(k,keywords[k])
  
