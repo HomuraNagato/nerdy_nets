@@ -41,6 +41,7 @@ class RNN_Seq2Seq(tf.keras.Model):
 		embedding_summary = tf.nn.embedding_lookup(self.summary_embedding, decoder_input)
 		out = self.encoder(embedding_paragraph)
 		print(out)
+		exit()
 		out1= self.decoder(embedding_summary, out)
 		dense_out = self.dense_layer(out1)
 		return dense_out
