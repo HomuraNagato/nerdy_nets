@@ -62,14 +62,14 @@ class LSTM_Seq2Seq(tf.keras.Model):
         :param mask:  tensor that acts as a padding mask [batch_size x window_size]
         :return: the loss of the model as a tensor
         """
-        print(labels.shape)
-        print(prbs.shape)
+        # print(labels.shape)
+        # print(prbs.shape)
         loss = tf.keras.losses.sparse_categorical_crossentropy(labels,prbs, from_logits = False)
-        print(prbs[1])
-        print(loss)
+        # print(prbs[1])
+        # print(loss)
         loss=tf.reduce_mean(loss*mask)
-        print(loss)
-        exit()
+        # print(loss)
+        # exit()
         # print(labels[1])
         return loss
     def produce_sentence(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):
@@ -77,6 +77,6 @@ class LSTM_Seq2Seq(tf.keras.Model):
         decoded_sentence = [ reverse_vocab[x] for x in decoded_symbols ]
         decoded_sentence = " ".join(decoded_sentence)
         ori_summary = " ".join([ reverse_vocab[x] for x in summary ])
-        # print("original paragraph\n", ori_paragraph)
-        # print("summary sentence\n", ori_summary)
-        # print("decoded sentence\n", decoded_sentence)
+        print("original paragraph\n", ori_paragraph)
+        print("summary sentence\n", ori_summary)
+        print("decoded sentence\n", decoded_sentence)
