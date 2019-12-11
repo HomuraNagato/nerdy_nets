@@ -75,7 +75,8 @@ class LSTM_Seq2Seq(tf.keras.Model):
     def produce_sentence(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):
         # print(prbs.shape)
         # exit()
-        indices = np.random.randint(0, 717514, size=(32))
+        indices = np.random.randint(0, 717514, size=32)
+        print(indices)
         decoded_symbols = prbs[range(len(prbs)),indices]
         print(decoded_symbols)
         exit()
