@@ -148,10 +148,6 @@ def convert_to_id(vocab, sentences):
     :param sentences:  list of lists of words, each representing padded sentence
     :return: numpy array of integers, with each row representing the word indeces in the corresponding sentences
     """
-    #print("sentences shape:", len(sentences), len(sentences[0]))
-    for sentence in sentences:
-        if len(sentence) != SUMMARY_WINDOW_SIZE:
-            # print("sentence not in right shape:", len(sentence))
     return np.stack([[vocab[word] if word in vocab else vocab[UNK_TOKEN] for word in sentence] for sentence in sentences])
 
 
