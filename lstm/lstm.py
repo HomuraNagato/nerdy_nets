@@ -35,7 +35,8 @@ class LSTM_Seq2Seq(tf.keras.Model):
         :return prbs: The 3d probabilities as a tensor, [batch_size x window_size x english_vocab_size]
         """
         embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding,encoder_input)
-        print(embedding_paragraph[1])
+        print(embedding_paragraph[1][1])
+        exit()
         embedding_summary = tf.nn.embedding_lookup(self.summary_embedding,decoder_input)
         encoder_outputs, state_h, state_c = self.encoder(embedding_paragraph)
         encoder_outputs1, state_h1, state_c1 = self.encoder1(encoder_outputs)
