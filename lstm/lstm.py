@@ -15,13 +15,13 @@ class LSTM_Seq2Seq(tf.keras.Model):
         self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.001, clipvalue=0.5, clipnorm = 1.)
 
         self.paragraph_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.paragraph_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
-        self.encoder = LSTM(50, return_state = True, return_sequences = True)
-        self.encoder1 = LSTM(50, return_state = True, return_sequences = True)
-        self.encoder2 = LSTM(50, return_state = True, return_sequences = True)    
+        self.encoder = LSTM(80, return_state = True, return_sequences = True)
+        self.encoder1 = LSTM(80, return_state = True, return_sequences = True)
+        self.encoder2 = LSTM(80, return_state = True, return_sequences = True)    
 
         # self.inputs2 = Input(shape=(summary_window_size,))
         self.summary_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.summary_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
-        self.decoder = LSTM(50, return_sequences = True)
+        self.decoder = LSTM(80, return_sequences = True)
 
         self.attn_layer = AttentionLayer(name='attention_layer')
 
