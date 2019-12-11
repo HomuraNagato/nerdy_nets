@@ -12,7 +12,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
         self.vocab_size = vocab_size
         self.batch_size = 100
         self.embedding_size = 15
-        self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.01)
+        self.optimizer = tf.keras.optimizers.Adam(learning_rate = 0.009)
 
         self.paragraph_embedding = tf.Variable(tf.random.truncated_normal(shape=[self.paragraph_window_size,self.embedding_size],stddev=0.01,dtype=tf.float32))
         self.encoder = LSTM(50, return_state = True, return_sequences = True)
@@ -61,9 +61,9 @@ class LSTM_Seq2Seq(tf.keras.Model):
         # print(labels.shape)
         # print(prbs.shape)
         loss=tf.reduce_sum(tf.keras.losses.sparse_categorical_crossentropy(labels,prbs))
-        print(prbs[1])
-        print(loss)
-        exit()
+        # print(prbs[1])
+        # print(loss)
+        # exit()
         return loss
     def produce_sentence(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):
         decoded_symbols = np.argmax(prbs, axis=1)
