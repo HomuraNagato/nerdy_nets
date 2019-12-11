@@ -34,6 +34,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
         :param decoder_input: batched ids corresponding to english sentences
         :return prbs: The 3d probabilities as a tensor, [batch_size x window_size x english_vocab_size]
         """
+        print(encoder_input)
         embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding,encoder_input)
         embedding_summary = tf.nn.embedding_lookup(self.summary_embedding,decoder_input)
         encoder_outputs, state_h, state_c = self.encoder(embedding_paragraph)
@@ -61,7 +62,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
         # print(labels.shape)
         # print(prbs.shape)
         loss=tf.reduce_sum(tf.keras.losses.sparse_categorical_crossentropy(labels,prbs))
-        print(prbs[1])
+        # print(prbs[1])
         return loss
     def produce_sentence(self, ori_paragraph, summary, prbs, reverse_vocab, sen_len):
         decoded_symbols = np.argmax(prbs, axis=1)
