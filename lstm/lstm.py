@@ -77,6 +77,8 @@ class LSTM_Seq2Seq(tf.keras.Model):
         # decoded_symbols = np.argmax(prbs, axis=1)
         # arr.argsort()[-3:][::-1]
         indices =[]
+        print(prbs.shape)
+        exit()
         prbs = np.array(prbs)
         for prb in prbs:
             indices.append(prb.argsort()[-10:][::-1])
