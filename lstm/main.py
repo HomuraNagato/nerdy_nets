@@ -12,7 +12,7 @@ tf.debugging.set_log_device_placement(True)
 # print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 
 # largest paragraph: 1024. Largest Summary: 400.
-PARAGRAPH_WINDOW_SIZE = 32  # window size is the largest sequnese we want to read
+PARAGRAPH_WINDOW_SIZE = 64  # window size is the largest sequnese we want to read
 SUMMARY_WINDOW_SIZE = 32
 
 break_line = 1000
