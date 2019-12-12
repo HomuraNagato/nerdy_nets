@@ -84,7 +84,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
             indices.append(prb.argsort()[-10:][::-1])
         decoded_symbols = [0]*32
         for i in range(len(indices)):
-            decoded_symbols[i] = np.random.choice(indice[i],1)
+            decoded_symbols[i] = np.random.choice(indices[i],1)
         print(decoded_symbols)
         exit()
         decoded_sentence = [ reverse_vocab[x] for x in decoded_symbols ]
