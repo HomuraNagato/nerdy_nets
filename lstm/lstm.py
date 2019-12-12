@@ -38,8 +38,6 @@ class LSTM_Seq2Seq(tf.keras.Model):
         """
         embedding_paragraph = self.paragraph_embedding1(encoder_input)
         embedding_summary = self.summary_embedding1(decoder_input)
-        # embedding_paragraph = tf.nn.embedding_lookup(self.paragraph_embedding,encoder_input)
-        # embedding_summary = tf.nn.embedding_lookup(self.summary_embedding,decoder_input)
         encoder_outputs, state_h, state_c = self.encoder(embedding_paragraph)
         encoder_outputs1, state_h1, state_c1 = self.encoder1(encoder_outputs)
         encoder_outputs2, state_h2, state_c2 = self.encoder2(encoder_outputs1)
@@ -90,6 +88,6 @@ class LSTM_Seq2Seq(tf.keras.Model):
         decoded_sentence = [ reverse_vocab[x] for x in decoded_symbols ]
         decoded_sentence = " ".join(decoded_sentence)
         ori_summary = " ".join([ reverse_vocab[x] for x in summary ])
-        print("original paragraph\n", ori_paragraph)
-        print("summary sentence\n", ori_summary)
-        print("decoded sentence\n", decoded_sentence)
+        # print("original paragraph\n", ori_paragraph)
+        # print("summary sentence\n", ori_summary)
+        # print("decoded sentence\n", decoded_sentence)
