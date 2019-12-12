@@ -81,7 +81,7 @@ class LSTM_Seq2Seq(tf.keras.Model):
         indices =[]
         prbs = np.array(prbs)
         for prb in prbs:
-            indices.append(prb.argsort()[-5:][::-1])
+            indices.append(prb.argsort()[-50:][::-1])
         decoded_symbols = [0]*32
         for i in range(len(indices)):
             decoded_symbols[i] = int(np.random.choice(indices[i],1))
