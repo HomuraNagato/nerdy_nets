@@ -50,7 +50,7 @@ for sec_test in df_test:
 feature_names=cv.get_feature_names()
  
 # get the document that we want to extract keywords from
-for i in docs_test.iterrows():
+for i in range(len(docs)):
  doc=docs_test[i]
  #print("Doc:",doc) 
 
